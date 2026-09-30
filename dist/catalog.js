@@ -89,7 +89,7 @@ cozy:[
 ['Digital photo frame',4,'wow','Keeps favorite people and memories close.','Check upload method, Wi-Fi needs, and subscription costs.','digital photo frame']]
 };
 export const gifts=Object.entries(rows).flatMap(([category,items])=>items.map(([name,budget,style,description,check,query],index)=>({id:`${category}-${index+1}`,category,name,budget,style,description,check,query,url:'',minAge:13})));
-export const config={affiliateTag:''};
+export const config={affiliateTag:'bestguess0f-20'};
 
 // Direct listings checked for product identity; prices and stock are not live.
 const listings = {'games-4':'B0D6BGS5TH','books-2':'1441304827','tech-2':'B09MCKK9NX'};

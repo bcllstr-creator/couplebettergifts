@@ -23,7 +23,7 @@ From this directory: `python -m http.server 5173 --bind 127.0.0.1 --directory di
 - `dist/assets/gift.jpg`: Unsplash photo by Katya Azimova
 - `.openai/hosting.json`: existing Site identity and static configuration
 
-Quiz answers are held only in page memory. There is no analytics service, account system, email collection, or runtime AI dependency. Affiliate revenue is not active until the owner configures approved links. Earned revenue and traffic measurement are next-stage launch work.
+Quiz answers are held only in page memory. There is no analytics service, account system, email collection, or runtime AI dependency. Amazon tracking ID bestguess0f-20 is configured on both direct and search links, with the affiliate disclosure enabled. The owner manages account eligibility, website registration, tax, and payment setup in Associates Central. Earned revenue and traffic measurement are next-stage launch work.
 
 Photo source: https://unsplash.com/photos/a-wooden-table-topped-with-a-wrapped-present-jorPYgT6V10 (Unsplash License).
 

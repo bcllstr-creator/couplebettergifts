@@ -1,4 +1,4 @@
-import {gifts,categories,config} from './catalog.js';
+import {gifts,categories,config} from './catalog.js?v=4';
 const root=document.querySelector('#quiz');
 const state={step:0,answers:{},view:'quiz',expanded:false};
 const stages=['budget','recipient','age','interest','detail','style'];
