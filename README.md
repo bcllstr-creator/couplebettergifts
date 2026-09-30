@@ -1,4 +1,4 @@
-# Good Guess
+# Couple Better Gifts
 
 A static gift finder with 72 fixed editorial ideas. The live quiz uses local matching rules, never an AI model. It starts with budget and recipient, asks about age and interests, and returns three ranked ideas with more available when the budget permits.
 
