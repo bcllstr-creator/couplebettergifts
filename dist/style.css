@@ -29,3 +29,9 @@
 #site-ad{min-height:276px}.adsbygoogle{width:100%;min-height:250px}
 #site-ad:has(.adsbygoogle[data-ad-status="unfilled"]){display:none}
 @media(max-width:900px){.ad-rail{grid-template-columns:1fr}}
+
+.bottom-ad{max-width:1192px;margin:36px auto 28px;padding:18px 0 0;border-top:1px solid #d1d1ce;min-height:124px}
+.bottom-ad .adsbygoogle{min-height:90px;width:100%}
+.bottom-ad:has(.adsbygoogle[data-ad-status="unfilled"]){display:none}
+@media(max-width:1240px){.bottom-ad{margin-left:24px;margin-right:24px}}
+@media(max-width:680px){.bottom-ad{margin:30px 16px 24px}.bottom-ad .adsbygoogle{min-height:90px}}

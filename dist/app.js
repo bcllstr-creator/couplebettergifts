@@ -28,18 +28,19 @@ document.querySelector('#disclosure').textContent=config.affiliateTag?'As an Ama
 if(focus){root.querySelector('h2')?.focus({preventScroll:true});document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});}}
 root.addEventListener('click',event=>{const el=event.target.closest('[data-answer],[data-restart],[data-back],[data-more]');if(!el)return;if(el.dataset.answer!==undefined)answer(el.dataset.answer);else if(el.hasAttribute('data-restart'))restart();else if(el.hasAttribute('data-back'))back();else{state.expanded=!state.expanded;render();}});
 document.querySelector('#back').addEventListener('click',back);document.querySelector('#home').addEventListener('click',event=>{event.preventDefault();restart();});render(false);
-let adRequested=false;
-function requestSiteAd(){
-  if(adRequested)return;
-  adRequested=true;
-  try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch{ /* Keep the quiz usable if advertising is unavailable. */ }
+function requestSiteAds(){
+  for(const unit of document.querySelectorAll('#site-ad ins.adsbygoogle, #bottom-ad ins.adsbygoogle')){
+    if(unit.dataset.requested||unit.dataset.adsbygoogleStatus)continue;
+    unit.dataset.requested='true';
+    try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch{ /* Keep the quiz usable if advertising is unavailable. */ }
+  }
 }
 welcome.addEventListener('cancel',event=>event.preventDefault());
 welcome.addEventListener('keydown',event=>{if(event.key==='Escape')event.preventDefault();});
 document.querySelector('#welcome-start').addEventListener('click',()=>{
   welcome.close();
   document.body.classList.remove('welcome-open');
-  requestSiteAd();
+  requestSiteAds();
   root.querySelector('h2')?.focus({preventScroll:true});
 });
 document.body.classList.add('welcome-open');

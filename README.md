@@ -29,7 +29,7 @@ Photo source: https://unsplash.com/photos/a-wooden-table-topped-with-a-wrapped-p
 
 Catalog inspiration checked against original retailer pages: Barnes & Noble's book-lover gifts, REI's gifts under $25, and LEGO's Botanical collection. These support product categories, not verification of all 72 Amazon listings or price bands.
 
-One responsive AdSense display unit uses `data-ad-slot="7973839221"` in `dist/index.html`. It requests an ad once after the welcome dialog is dismissed. The square responsive layout places them below the quiz on mobile. The supplied AdSense loader and display unit are installed.
+Two responsive AdSense placements use `data-ad-slot="7973839221"` in `dist/index.html`. Each placement requests one ad after the welcome dialog is dismissed. The sidebar uses auto sizing, and the bottom placement above the footer uses the supported horizontal format. The square responsive layout places them below the quiz on mobile. The supplied AdSense loader and display unit are installed.
 
 Run `node build-content.mjs` after editing the catalog to regenerate the gift buying tips, About, and Privacy pages. `MONETIZATION_SETUP.md` contains current AdSense, domain, and Amazon image/API setup instructions. No product-image API is configured.
 
