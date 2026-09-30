@@ -7,7 +7,7 @@
 5. Send only your Associates tracking ID (often ending in -20 for the US program). Set config.affiliateTag in dist/catalog.js to that ID. The site then adds it to both direct product and search links and enables the Amazon disclosure.
 6. Review the site and your links in Associates Central. Amazon reviews applications after at least three qualifying sales in the first 180 days; personal orders do not qualify. Acceptance is not guaranteed.
 
-Current links: three verified direct Amazon product pages, with the remaining gift concepts linking to clearly labeled Amazon searches. Tracking ID bestguess0f-20 is configured on all shopping links. The owner still needs to list this website in Associates Central and complete Amazon’s tax and payment setup. Listing identity was checked; prices, stock, and quality are not guaranteed. Review listings before promoting them.
+Current links: five verified direct Amazon product pages, with the remaining gift concepts linking to clearly labeled Amazon searches. Tracking ID bestguess0f-20 is configured on all shopping links. The owner still needs to list this website in Associates Central and complete Amazon’s tax and payment setup. Listing identity was checked; prices, stock, and quality are not guaranteed. Review listings before promoting them.
 
 Ad slots: two labeled sidebar placeholders. They do not serve advertisements or generate revenue. An ad network account and approved integration, or a real sponsor, is needed to monetize them.
 

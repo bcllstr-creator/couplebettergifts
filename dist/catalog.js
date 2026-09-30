@@ -91,12 +91,20 @@ cozy:[
 export const gifts=Object.entries(rows).flatMap(([category,items])=>items.map(([name,budget,style,description,check,query],index)=>({id:`${category}-${index+1}`,category,name,budget,style,description,check,query,url:'',minAge:13})));
 export const config={affiliateTag:'bestguess0f-20'};
 
-// Direct listings checked for product identity; prices and stock are not live.
-const listings = {'games-4':'B0D6BGS5TH','books-2':'1441304827','tech-2':'B09MCKK9NX'};
+// Product identity checked on Amazon; no live price or availability claims.
+const listings = {
+  'games-4':{asin:'B0D6BGS5TH',name:'8BitDo Ultimate 2C Wireless Controller — Purple',note:'For PC and Android. Check supported systems and the connection method; do not assume Xbox, PlayStation, or Switch compatibility.'},
+  'games-5':{asin:'B01H6GUCCQ',name:'BENGOO G9000 wired gaming headset',note:'Check the audio connection and any adapter needed for their console or computer. USB lighting does not mean USB audio compatibility.'},
+  'books-1':{asin:'B07WNRN9WQ',name:'Glocusent rechargeable neck reading light',note:'This is a wearable neck light, not a clip-on lamp. Check weight, brightness settings, and charging requirements.'},
+  'books-2':{asin:'1441304827',name:"The Book Lover’s Journal",note:'Check the page layout, format, and dimensions against how they like to keep reading notes.'},
+  'tech-2':{asin:'B09MCKK9NX',name:'Lamicall adjustable foldable phone stand',note:'Check their phone size and case thickness. This is a stand, not a charger.'}
+};
 for (const gift of gifts) {
-  if (listings[gift.id]) gift.url = `https://www.amazon.com/dp/${listings[gift.id]}`;
-  if (gift.id === 'games-4') {
-    gift.name = '8BitDo Ultimate 2C controller';
-    gift.check = 'This listing is for PC and Android. Do not assume Xbox, PlayStation, or Switch compatibility. Check the supported systems, connection method, and current price.';
+  const listing = listings[gift.id];
+  if (listing) {
+    gift.url = `https://www.amazon.com/dp/${listing.asin}`;
+    gift.listingName = listing.name;
+    gift.asin = listing.asin;
+    gift.check = listing.note;
   }
 }

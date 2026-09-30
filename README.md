@@ -6,7 +6,7 @@ A static gift finder with 72 fixed editorial ideas. The live quiz uses local mat
 
 Edit `dist/catalog.js`. Each row contains: name, planning budget tier, gift style, description, buying check, and search terms. Tiers 1–4 mean planning maxima of $25, $50, $100, and $200. These are editorial estimates for product types, not verified prices. The catalog currently covers ages 13+; `minAge` is an eligibility field for later additions.
 
-The `listings` map at the end of `dist/catalog.js` holds three checked Amazon product ASINs. Add reviewed listings there; other gifts use clearly labeled searches. Set `config.affiliateTag` to your own approved Associates tracking ID to tag both direct and search links and activate the disclosure. See `AMAZON_SETUP.md` for the application checklist.
+The `listings` map at the end of `dist/catalog.js` holds five checked Amazon product listings. Add reviewed listings there; other gifts use clearly labeled searches. Set `config.affiliateTag` to your own approved Associates tracking ID to tag both direct and search links and activate the disclosure. See `AMAZON_SETUP.md` for the application checklist.
 
 Review real listings, prices, availability, compatibility, image permissions, and Amazon's current rules before a commercial launch. The Stormlight Archive character model is an unverified concept, not a promise that a licensed item is available on Amazon. Photos and reviews from Amazon are not copied here.
 
@@ -30,3 +30,5 @@ Photo source: https://unsplash.com/photos/a-wooden-table-topped-with-a-wrapped-p
 Catalog inspiration checked against original retailer pages: Barnes & Noble's book-lover gifts, REI's gifts under $25, and LEGO's Botanical collection. These support product categories, not verification of all 72 Amazon listings or price bands.
 
 Two sidebar ad placeholders are identified by `data-ad-slot` in `dist/index.html`. They are not active ads. The square responsive layout places them below the quiz on mobile. No ad network script or tracking has been added.
+
+Run `node build-content.mjs` after editing the catalog to regenerate the readable catalog, About, and Privacy pages. `MONETIZATION_SETUP.md` contains current AdSense, domain, and Amazon image/API setup instructions. No live ads or product-image API is configured.
