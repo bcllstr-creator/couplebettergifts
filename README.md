@@ -32,3 +32,5 @@ Catalog inspiration checked against original retailer pages: Barnes & Noble's bo
 Two sidebar ad placeholders are identified by `data-ad-slot` in `dist/index.html`. They are not active ads. The square responsive layout places them below the quiz on mobile. No ad network script or tracking has been added.
 
 Run `node build-content.mjs` after editing the catalog to regenerate the readable catalog, About, and Privacy pages. `MONETIZATION_SETUP.md` contains current AdSense, domain, and Amazon image/API setup instructions. No live ads or product-image API is configured.
+
+AdSense verification script for ca-pub-4573556097135456 is included in each page head. The privacy notice describes Google advertising cookies and choices. Reserved ad slots are not populated; Google approval and applicable consent setup are still required before serving ads.
