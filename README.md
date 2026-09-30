@@ -29,10 +29,12 @@ Photo source: https://unsplash.com/photos/a-wooden-table-topped-with-a-wrapped-p
 
 Catalog inspiration checked against original retailer pages: Barnes & Noble's book-lover gifts, REI's gifts under $25, and LEGO's Botanical collection. These support product categories, not verification of all 72 Amazon listings or price bands.
 
-Two sidebar ad placeholders are identified by `data-ad-slot` in `dist/index.html`. They are not active ads. The square responsive layout places them below the quiz on mobile. The AdSense verification script is installed; no manual ad units are configured.
+One responsive AdSense display unit uses `data-ad-slot="7973839221"` in `dist/index.html`. It requests an ad once after the welcome dialog is dismissed. The square responsive layout places them below the quiz on mobile. The supplied AdSense loader and display unit are installed.
 
-Run `node build-content.mjs` after editing the catalog to regenerate the readable catalog, About, and Privacy pages. `MONETIZATION_SETUP.md` contains current AdSense, domain, and Amazon image/API setup instructions. No live ads or product-image API is configured.
+Run `node build-content.mjs` after editing the catalog to regenerate the readable catalog, About, and Privacy pages. `MONETIZATION_SETUP.md` contains current AdSense, domain, and Amazon image/API setup instructions. No product-image API is configured.
 
-AdSense verification script for ca-pub-4573556097135456 is included in each page head. The privacy notice describes Google advertising cookies and choices. Reserved ad slots are not populated; Google approval and applicable consent setup are still required before serving ads.
+AdSense verification script for ca-pub-4573556097135456 is included in each page head. The privacy notice describes Google advertising cookies and choices. Ad rendering depends on Google approval, demand, and browser settings; configure the applicable consent message in AdSense Privacy & messaging.
 
-The opening banner explains the six-question quiz. On screens up to 900px wide, ad spaces follow the quiz, with 44px minimum primary tap targets and a single-column phone layout.
+A full-page welcome dialog explains the six-question quiz on each page load. Visitors choose LET’S GO! to enter; keyboard focus stays inside the dialog until they do. On screens up to 900px wide, ad spaces follow the quiz, with 44px minimum primary tap targets and a single-column phone layout.
+
+`dist/ads.txt` authorizes the supplied Google publisher ID. The supplied display unit ID is 7973839221; blank or blocked ads do not prevent the quiz from working.

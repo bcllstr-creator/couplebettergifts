@@ -1,5 +1,6 @@
 import {gifts,categories,config} from './catalog.js?v=5';
 const root=document.querySelector('#quiz');
+const welcome=document.querySelector('#welcome-dialog');
 const state={step:0,answers:{},view:'quiz',expanded:false};
 const stages=['budget','recipient','age','interest','detail','style'];
 const budgetLabels={1:'Up to $25',2:'Up to $50',3:'Up to $100',4:'Up to $200'};
@@ -15,7 +16,7 @@ detail:{title:state.answers.interest==='nerdy'?`What does ${p==='him'?'he':p==='
 style:{title:'What kind of gift feels right?',subtitle:'We’ll use this to order your matches, while keeping their interests first.',choices:Object.entries(styles).map(([id,title])=>({id,title,subtitle:{practical:'They’ll reach for it again and again',personal:'A reminder that you know them well',fun:'An activity or a little extra joy',wow:'An upgrade for a special occasion',any:'Show me the best mix'}[id]}))}
 }[stages[state.step]];}
 export function recommend(answers){return gifts.filter(g=>g.category===answers.detail&&g.budget<=Number(answers.budget)&&g.minAge<=Number(answers.age)).sort((a,b)=>{const score=g=>(g.style===answers.style?10:0)+g.budget;return score(b)-score(a)||a.id.localeCompare(b.id);});}
-export function answer(value){const q=question();if(state.view!=='quiz'||state.step>=stages.length||!q?.choices.some(c=>c.id===String(value)))throw new Error('That answer is not available for this question.');state.answers[stages[state.step]]=String(value);for(const stage of stages.slice(state.step+1))delete state.answers[stage];state.step++;state.expanded=false;render();return {step:state.step,answers:{...state.answers}};}
+export function answer(value){if(welcome.open)throw new Error('Read the introduction and choose LET’S GO! first.');const q=question();if(state.view!=='quiz'||state.step>=stages.length||!q?.choices.some(c=>c.id===String(value)))throw new Error('That answer is not available for this question.');state.answers[stages[state.step]]=String(value);for(const stage of stages.slice(state.step+1))delete state.answers[stage];state.step++;state.expanded=false;render();return {step:state.step,answers:{...state.answers}};}
 function back(){if(state.view==='catalog'){state.view='quiz';}else if(state.step>0){state.step--;for(const key of stages.slice(state.step))delete state.answers[key];}state.expanded=false;render();}
 function restart(){state.step=0;state.answers={};state.view='quiz';state.expanded=false;render();}
 function productLink(g){const url=new URL(g.url||'https://www.amazon.com/s');if(!g.url)url.searchParams.set('k',g.query);url.searchParams.delete('tag');if(config.affiliateTag)url.searchParams.set('tag',config.affiliateTag);return url.href;}
@@ -28,6 +29,22 @@ document.querySelector('#disclosure').textContent=config.affiliateTag?'As an Ama
 if(focus){root.querySelector('h2')?.focus({preventScroll:true});document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});}}
 root.addEventListener('click',event=>{const el=event.target.closest('[data-answer],[data-restart],[data-back],[data-more]');if(!el)return;if(el.dataset.answer!==undefined)answer(el.dataset.answer);else if(el.hasAttribute('data-restart'))restart();else if(el.hasAttribute('data-back'))back();else{state.expanded=!state.expanded;render();}});
 document.querySelector('#back').addEventListener('click',back);document.querySelector('#catalog-toggle').addEventListener('click',()=>{state.view=state.view==='catalog'?'quiz':'catalog';render();});document.querySelector('#home').addEventListener('click',event=>{event.preventDefault();restart();});render(false);
+let adRequested=false;
+function requestSiteAd(){
+  if(adRequested)return;
+  adRequested=true;
+  try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch{ /* Keep the quiz usable if advertising is unavailable. */ }
+}
+welcome.addEventListener('cancel',event=>event.preventDefault());
+welcome.addEventListener('keydown',event=>{if(event.key==='Escape')event.preventDefault();});
+document.querySelector('#welcome-start').addEventListener('click',()=>{
+  welcome.close();
+  document.body.classList.remove('welcome-open');
+  requestSiteAd();
+  root.querySelector('h2')?.focus({preventScroll:true});
+});
+document.body.classList.add('welcome-open');
+welcome.showModal();
 // Preserve the prototype's browser tool, using the same validated action as UI buttons.
 if(document.modelContext?.registerTool){try{Promise.resolve(document.modelContext.registerTool({name:'answer_gift_quiz',description:'Choose an available answer for the current gift quiz question. Values are the data-answer IDs on visible answer buttons.',inputSchema:{type:'object',properties:{answer:{type:'string'}},required:['answer'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:input=>answer(input.answer)})).catch(()=>{});}catch{}}
 
