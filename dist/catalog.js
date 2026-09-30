@@ -1,6 +1,6 @@
 // Fixed editorial catalog. No AI service generates recommendations.
 // Budget tiers are planning estimates, not live Amazon prices.
-export const categories={games:{name:'Video games',icon:'🎮',group:'nerdy'},books:{name:'Fantasy & reading',icon:'📚',group:'nerdy'},tabletop:{name:'Dungeons & Dragons',icon:'🎲',group:'nerdy'},outdoors:{name:'Hiking & camping',icon:'🌲',group:'outside'},hunting:{name:'Hunting & fishing',icon:'🦌',group:'outside'},art:{name:'Art & making things',icon:'🎨',group:'creative'},music:{name:'Music',icon:'🎵',group:'creative'},cooking:{name:'Cooking & baking',icon:'🍳',group:'food'},drinks:{name:'Coffee & tea',icon:'☕',group:'food'},fitness:{name:'Fitness & sports',icon:'🏃',group:'active'},tech:{name:'Tech & gadgets',icon:'💻',group:'active'},cozy:{name:'Cozy & personal',icon:'🧸',group:'everyday'}};
+export const categories={games:{name:'Video games',group:'nerdy'},books:{name:'Fantasy & reading',group:'nerdy'},tabletop:{name:'Dungeons & Dragons',group:'nerdy'},outdoors:{name:'Hiking & camping',group:'outside'},hunting:{name:'Hunting & fishing',group:'outside'},art:{name:'Art & making things',group:'creative'},music:{name:'Music',group:'creative'},cooking:{name:'Cooking & baking',group:'food'},drinks:{name:'Coffee & tea',group:'food'},fitness:{name:'Fitness & sports',group:'active'},tech:{name:'Tech & gadgets',group:'active'},cozy:{name:'Cozy & personal',group:'everyday'}};
 // name | budget tier | style | description | buying check | Amazon search terms
 const rows={
 games:[
@@ -90,3 +90,13 @@ cozy:[
 };
 export const gifts=Object.entries(rows).flatMap(([category,items])=>items.map(([name,budget,style,description,check,query],index)=>({id:`${category}-${index+1}`,category,name,budget,style,description,check,query,url:'',minAge:13})));
 export const config={affiliateTag:''};
+
+// Direct listings checked for product identity; prices and stock are not live.
+const listings = {'games-4':'B0D6BGS5TH','books-2':'1441304827','tech-2':'B09MCKK9NX'};
+for (const gift of gifts) {
+  if (listings[gift.id]) gift.url = `https://www.amazon.com/dp/${listings[gift.id]}`;
+  if (gift.id === 'games-4') {
+    gift.name = '8BitDo Ultimate 2C controller';
+    gift.check = 'This listing is for PC and Android. Do not assume Xbox, PlayStation, or Switch compatibility. Check the supported systems, connection method, and current price.';
+  }
+}
