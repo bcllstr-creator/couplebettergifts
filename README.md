@@ -1,0 +1,30 @@
+# Good Guess
+
+A static gift finder with 72 fixed editorial ideas. The live quiz uses local matching rules, never an AI model. It starts with budget and recipient, asks about age and interests, and returns three ranked ideas with more available when the budget permits.
+
+## Edit recommendations
+
+Edit `dist/catalog.js`. Each row contains: name, planning budget tier, gift style, description, buying check, and search terms. Tiers 1–4 mean planning maxima of $25, $50, $100, and $200. These are editorial estimates for product types, not verified prices. The catalog currently covers ages 13+; `minAge` is an eligibility field for later additions.
+
+The `gifts` objects include a `url` field. Replace it with an approved direct product or affiliate URL when a specific listing has been reviewed. Leave it empty to show a clearly labeled Amazon search. The `config.affiliateTag` is deliberately empty; only add your approved Associates tag. Disclosure text switches when it is configured. Direct affiliate links also need the affiliate disclosure enabled.
+
+Review real listings, prices, availability, compatibility, image permissions, and Amazon's current rules before a commercial launch. The Stormlight Archive character model is an unverified concept, not a promise that a licensed item is available on Amazon. Photos and reviews from Amazon are not copied here.
+
+## Run locally
+
+From this directory: `python -m http.server 5173 --bind 127.0.0.1 --directory dist`, then visit `http://127.0.0.1:5173`.
+
+## Files
+
+- `dist/index.html`: page structure and metadata
+- `dist/style.css`: responsive presentation
+- `dist/app.js`: questionnaire, matching, and catalog view
+- `dist/catalog.js`: editable fixed recommendation data
+- `dist/assets/gift.jpg`: Unsplash photo by Katya Azimova
+- `.openai/hosting.json`: existing Site identity and static configuration
+
+Quiz answers are held only in page memory. There is no analytics service, account system, email collection, or runtime AI dependency. Affiliate revenue is not active until the owner configures approved links. Earned revenue and traffic measurement are next-stage launch work.
+
+Photo source: https://unsplash.com/photos/a-wooden-table-topped-with-a-wrapped-present-jorPYgT6V10 (Unsplash License).
+
+Catalog inspiration checked against original retailer pages: Barnes & Noble's book-lover gifts, REI's gifts under $25, and LEGO's Botanical collection. These support product categories, not verification of all 72 Amazon listings or price bands.
