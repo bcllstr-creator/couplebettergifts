@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://couplebettergifts.com/sitemap.xml
