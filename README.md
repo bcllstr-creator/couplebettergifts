@@ -10,6 +10,12 @@ An independent student gift finder. The live quiz matches a fixed collection of 
 - `dist/app.js`: local questionnaire and optional, dismissible instructions. Answers live only in page memory; no analytics/account database.
 - `dist/style.css`: square responsive design, keyboard focus styling, and readable article layout.
 
+## Amazon product cards
+
+The five selected listings display their exact product name, direct ASIN link, and the official “Available at Amazon” badge. Other ideas remain labeled Amazon searches. The badge is the unmodified horizontal squid-ink PNG from Amazon's US English asset package, displayed at 170 CSS pixels wide with clear space. Source and usage rules: https://affiliate-program.amazon.com/help/operating/amazonmarks/ . It is a merchant badge, not a product photograph.
+
+The account owner confirmed no Creators API access on October 5, 2026. Product photos and live product data are not connected. Amazon's current documentation lists final program acceptance, API registration/credentials, and 10 qualifying sales in the preceding 30 days for product API access: https://affiliate-program.amazon.com/creatorsapi/docs/en-us/introduction and https://affiliate-program.amazon.com/creatorsapi/docs/en-us/onboarding/register-for-creators-api . Keep credentials on a server when this is implemented. Do not copy retail-page images, synthesize product photos, invent ratings, or put an Amazon page in an iframe. Owner-supplied original or authorized product photos are an alternative for selected products.
+
 Run `python -m http.server 5173 --bind 127.0.0.1 --directory dist` from this directory for local preview.
 
 ## Advertising after the policy review

@@ -7,7 +7,7 @@ games:[
 ['Controller thumb grips',1,'practical','A small comfort upgrade for long play sessions.','Match the grip shape to the controller model.','gaming controller thumb grips'],
 ['Gaming desk mat',1,'practical','A large mat for their keyboard and mouse.','Measure the desk and look for a washable surface.','large gaming desk mat'],
 ['Game-themed enamel pin',1,'personal','A little nod to the game they talk about most.','Choose a franchise they play and an authorized design.','licensed video game enamel pin'],
-['Gaming controller',2,'practical','For playing games with a controller on their PC or console.','Confirm PC or console compatibility and wired versus wireless.','gaming controller'],
+['Gaming controller',2,'practical','For games they prefer to play with a controller.','Confirm PC or console compatibility and wired versus wireless.','gaming controller'],
 ['Gaming headset',3,'practical','For chat, co-op nights, and hearing the little details.','Check microphone needs, connector, and platform support.','gaming headset with microphone'],
 ['Mechanical gaming keyboard',4,'wow','A centerpiece for a PC setup they use every day.','Check layout, switch preference, noise, and desk space.','mechanical gaming keyboard']],
 books:[
