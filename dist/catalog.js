@@ -5,16 +5,16 @@ export const categories={games:{name:'Video games',group:'nerdy'},books:{name:'F
 const rows={
 games:[
 ['Controller thumb grips',1,'practical','A small comfort upgrade for long play sessions.','Match the grip shape to the controller model.','gaming controller thumb grips'],
-['Gaming desk mat',1,'practical','Gives a mouse and keyboard a smoother home.','Measure the desk and look for a washable surface.','large gaming desk mat'],
+['Gaming desk mat',1,'practical','A large mat for their keyboard and mouse.','Measure the desk and look for a washable surface.','large gaming desk mat'],
 ['Game-themed enamel pin',1,'personal','A little nod to the game they talk about most.','Choose a franchise they play and an authorized design.','licensed video game enamel pin'],
-['Gaming controller',2,'practical','A useful upgrade for their next adventure.','Confirm PC or console compatibility and wired versus wireless.','gaming controller'],
+['Gaming controller',2,'practical','For playing games with a controller on their PC or console.','Confirm PC or console compatibility and wired versus wireless.','gaming controller'],
 ['Gaming headset',3,'practical','For chat, co-op nights, and hearing the little details.','Check microphone needs, connector, and platform support.','gaming headset with microphone'],
 ['Mechanical gaming keyboard',4,'wow','A centerpiece for a PC setup they use every day.','Check layout, switch preference, noise, and desk space.','mechanical gaming keyboard']],
 books:[
-['Rechargeable reading light',1,'practical','Keeps one more chapter comfortable after dark.','Look for adjustable brightness and a light clip.','rechargeable book reading light'],
+['Rechargeable reading light',1,'practical','For reading in bed or in low light.','Check brightness, weight, and how the light attaches.','rechargeable book reading light'],
 ['Reading journal',1,'personal','A place for favorite quotes and the books they finish.','Check whether they prefer guided prompts or blank pages.','reading journal book tracker'],
 ['Fantasy-themed bookmark set',1,'personal','A small keepsake for the worlds they return to.','Pick a favorite series and check design permissions.','fantasy metal bookmark set'],
-['Collectible hardcover novel',2,'personal','A shelf-worthy edition of a story they love.','Confirm the title, edition, and whether they already own it.','fantasy collectible hardcover book'],
+['Collectible hardcover novel',2,'personal','A special edition of a book they love.','Confirm the title, edition, and whether they already own it.','fantasy collectible hardcover book'],
 ['Fantasy character model',3,'wow','Brings a favorite fictional character onto their shelf.','Confirm the character; for Stormlight Archive, verify the maker and licensing.','Stormlight Archive character collectible figure'],
 ['Book nook building kit',4,'fun','A miniature world to build between the books.','Check assembly time, included tools, and lighting requirements.','DIY book nook miniature kit']],
 tabletop:[
@@ -93,11 +93,11 @@ export const config={affiliateTag:'bestguess0f-20'};
 
 // Product identity checked on Amazon; no live price or availability claims.
 const listings = {
-  'games-4':{asin:'B0D6BGS5TH',name:'8BitDo Ultimate 2C Wireless Controller — Purple',note:'For PC and Android. Check supported systems and the connection method; do not assume Xbox, PlayStation, or Switch compatibility.'},
-  'games-5':{asin:'B01H6GUCCQ',name:'BENGOO G9000 wired gaming headset',note:'Check the audio connection and any adapter needed for their console or computer. USB lighting does not mean USB audio compatibility.'},
-  'books-1':{asin:'B07WNRN9WQ',name:'Glocusent rechargeable neck reading light',note:'This is a wearable neck light, not a clip-on lamp. Check weight, brightness settings, and charging requirements.'},
+  'games-4':{asin:'B0D6BGS5TH',name:'8BitDo Ultimate 2C Wireless Controller — Purple',note:'For Windows PCs and Android devices. Confirm the exact system and connection before buying.'},
+  'games-5':{asin:'B01H6GUCCQ',name:'BENGOO G9000 wired gaming headset',note:'Check the audio connector and any adapter their system needs. The USB cable powers the lighting.'},
+  'books-1':{asin:'B07WNRN9WQ',name:'Glocusent rechargeable neck reading light',note:'Worn around the neck. Check weight, brightness settings, and charging requirements.'},
   'books-2':{asin:'1441304827',name:"The Book Lover’s Journal",note:'Check the page layout, format, and dimensions against how they like to keep reading notes.'},
-  'tech-2':{asin:'B09MCKK9NX',name:'Lamicall adjustable foldable phone stand',note:'Check their phone size and case thickness. This is a stand, not a charger.'}
+  'tech-2':{asin:'B09MCKK9NX',name:'Lamicall adjustable foldable phone stand',note:'Check their phone size and case thickness. Holds the phone upright; charging requires a separate cable.'}
 };
 for (const gift of gifts) {
   const listing = listings[gift.id];
