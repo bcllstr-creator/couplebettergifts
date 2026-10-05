@@ -62,3 +62,12 @@
 @keyframes quiz-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .progress span{transition:width 180ms ease-out}
 @media(prefers-reduced-motion:reduce){.quiz-enter{animation:none}.progress span{transition:none}}
+
+/* Analytics stays off until a visitor allows it. */
+.analytics-choice{max-width:1192px;margin:16px auto;padding:14px 18px;background:#e7edf3;border:1px solid #bbc4ce;display:flex;align-items:center;gap:20px;font-size:14px;line-height:1.5}
+.analytics-choice[hidden]{display:none}
+.analytics-choice p{margin:0;flex:1}
+.analytics-choice-actions{display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap}
+.analytics-choice-actions button{min-height:44px;font-size:14px}
+@media(max-width:1240px){.analytics-choice{margin-left:24px;margin-right:24px}}
+@media(max-width:680px){.analytics-choice{margin-left:16px;margin-right:16px;display:block;padding:14px}.analytics-choice-actions{margin-top:12px;display:grid;grid-template-columns:1fr 1fr}}

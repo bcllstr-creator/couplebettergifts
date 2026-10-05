@@ -7,7 +7,7 @@ An independent student gift finder. The live quiz matches a fixed collection of 
 - `dist/catalog.js`: fixed quiz gift data and five previously identity-checked Amazon listings. Planning budget tiers are not live seller prices. Keep `bestguess0f-20` as the supplied affiliate tracking ID.
 - `guides.mjs`: four distinct buying guides. Technical examples cite primary sources. These are buying notes, not personally tested product reviews.
 - `build-content.mjs`: generates the homepage, guides, About, Privacy, explicit 404, robots.txt, and sitemap.xml. Run `node build-content.mjs` after changing guides or layout.
-- `dist/app.js`: local questionnaire and optional, dismissible instructions. Answers live only in page memory; no analytics/account database.
+- `dist/app.js`: local questionnaire and optional, dismissible instructions. Answers live only in page memory. Quiz-start and quiz-completion events are sent to GA4 only when analytics is allowed.
 - `dist/style.css`: square responsive design, keyboard focus styling, and readable article layout.
 
 ## Amazon product cards
@@ -27,3 +27,9 @@ Owner reports configuring an AdSense consent message. Confirm it is published fo
 See `ADSENSE_POLICY_REVIEW.md` for the reviewed policies, evidence, implemented remedies, and account-side tasks. No universal compliance or approval guarantee is claimed. No public contact address is configured yet.
 
 Photo: Katya Azimova / Unsplash, existing licensed gift image. Do not copy Amazon photos, merchant descriptions, ratings, or reviews without the required rights or official mechanisms. Do not invent licensing, personal testing, seller prices, inventory, author credentials, or reviews.
+
+## Visitor analytics
+
+GA4 property `G-T1Y7QQEW1P` is installed through `dist/analytics.js` on all pages. A small privacy choice blocks its loader until the visitor allows analytics. The choice expires after six months and can be changed from the footer. Localhost previews never load or send Analytics. The custom events are `quiz_start`, `quiz_complete`, and `amazon_click`; completion is counted once per quiz run. Only Amazon-click events include a gift ID and product/search link type. Quiz answer values are excluded. AdSense consent remains separate.
+
+Open Google Analytics → Reports → Realtime to check new activity after publishing. Standard reports can take 24–48 hours to process. Mark `quiz_complete` and `amazon_click` as key events in Admin → Events if you want them counted as conversions. There is no historical visitor data from before this tag was installed. Installation and event behavior were tested locally; access to this Analytics property was not available to confirm report delivery.
