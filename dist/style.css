@@ -56,3 +56,9 @@
 .gift-card .search-label{color:#555;font-size:13px;border-top:1px solid #ddd;padding-top:14px;margin-bottom:18px}
 .amazon-product-link{background:#f5d36a;border-color:#b88c22;color:#222}
 .amazon-product-link:hover{background:#edc452;color:#222}
+
+/* Small feedback as the next question appears. */
+.quiz-enter{animation:quiz-enter 180ms ease-out}
+@keyframes quiz-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.progress span{transition:width 180ms ease-out}
+@media(prefers-reduced-motion:reduce){.quiz-enter{animation:none}.progress span{transition:none}}

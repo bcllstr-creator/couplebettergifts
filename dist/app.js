@@ -31,7 +31,14 @@ function render(focus=true){const results=state.step===stages.length;document.bo
 if(results){const matches=recommend(state.answers);const shown=state.expanded?matches:matches.slice(0,3);root.innerHTML=`<span class="tag">GIFT IDEAS FOR ${pronoun().toUpperCase()}</span><h2 tabindex="-1">Recommended gifts</h2><div class="answer-summary"><span>${budgetLabels[state.answers.budget]}</span><span>${categories[state.answers.detail].name}</span><span>${styles[state.answers.style]}</span></div><p class="intro result-intro">${matches.length} gift ideas for ${pronoun()}. Check Amazon for prices and delivery.</p><div class="gift-grid">${shown.map((g,i)=>card(g,i,true)).join('')}</div>${matches.length>3?`<button class="secondary more" data-more>${state.expanded?'Show the top 3':`See ${matches.length-3} more matching ${matches.length===4?'idea':'ideas'}`}</button>`:''}<div class="result-actions"><button class="primary" data-restart>Find a gift for someone else</button><button class="text-button" data-back>Change my answers</button></div>`;}
 else{const q=question();root.innerHTML=`<h2 tabindex="-1">${q.title}</h2>${q.subtitle?`<p class="intro">${q.subtitle}</p>`:''}<div class="choices ${q.choices.length>3?'two-columns':''}">${q.choices.map(c=>`<button class="choice" data-answer="${c.id}"><span><strong>${c.title}</strong><small>${c.subtitle}</small></span></button>`).join('')}</div>`;}
 document.querySelector('#disclosure').textContent=config.affiliateTag?'As an Amazon Associate I earn from qualifying purchases. We may earn a commission when you buy through our links.':'Links open Amazon product pages or searches, as labeled. Affiliate commissions are not currently enabled.';
-if(focus){root.querySelector('h2')?.focus({preventScroll:true});document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});}}
+if(focus){
+  root.querySelector('h2')?.focus({preventScroll:true});
+  document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});
+  root.classList.remove('quiz-enter');
+  // Restart the short entrance when the same element shows a new question.
+  void root.offsetWidth;
+  root.classList.add('quiz-enter');
+}}
 root.addEventListener('click',event=>{const el=event.target.closest('[data-answer],[data-restart],[data-back],[data-more]');if(!el)return;if(el.dataset.answer!==undefined)answer(el.dataset.answer);else if(el.hasAttribute('data-restart'))restart();else if(el.hasAttribute('data-back'))back();else{state.expanded=!state.expanded;render();}});
 document.querySelector('#back').addEventListener('click',back);document.querySelector('#home').addEventListener('click',event=>{event.preventDefault();restart();});render(false);
 function closeWelcome(){
