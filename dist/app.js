@@ -41,23 +41,6 @@ if(focus){
 }}
 root.addEventListener('click',event=>{const el=event.target.closest('[data-answer],[data-restart],[data-back],[data-more]');if(!el)return;if(el.dataset.answer!==undefined)answer(el.dataset.answer);else if(el.hasAttribute('data-restart'))restart();else if(el.hasAttribute('data-back'))back();else{state.expanded=!state.expanded;render();}});
 document.querySelector('#back').addEventListener('click',back);document.querySelector('#home').addEventListener('click',event=>{event.preventDefault();restart();});render(false);
-function closeWelcome(){
-  welcome.close();
-  document.body.classList.remove('welcome-open');
-  document.querySelector('#welcome-help').focus({preventScroll:true});
-}
-document.querySelector('#welcome-help').addEventListener('click',()=>{
-  document.body.classList.add('welcome-open');
-  welcome.showModal();
-});
-document.querySelector('#welcome-close').addEventListener('click',closeWelcome);
-welcome.addEventListener('close',()=>document.body.classList.remove('welcome-open'));
-document.querySelector('#welcome-start').addEventListener('click',()=>{
-  welcome.close();
-  document.body.classList.remove('welcome-open');
-  root.querySelector('h2')?.focus({preventScroll:true});
-});
-// Help is available on request; reading the page never requires an acknowledgment.
 // Preserve the prototype's browser tool, using the same validated action as UI buttons.
 if(document.modelContext?.registerTool){try{Promise.resolve(document.modelContext.registerTool({name:'answer_gift_quiz',description:'Choose an available answer for the current gift quiz question. Values are the data-answer IDs on visible answer buttons.',inputSchema:{type:'object',properties:{answer:{type:'string'}},required:['answer'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:input=>answer(input.answer)})).catch(()=>{});}catch{}}
 

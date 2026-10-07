@@ -71,3 +71,10 @@
 .analytics-choice-actions button{min-height:44px;font-size:14px}
 @media(max-width:1240px){.analytics-choice{margin-left:24px;margin-right:24px}}
 @media(max-width:680px){.analytics-choice{margin-left:16px;margin-right:16px;display:block;padding:14px}.analytics-choice-actions{margin-top:12px;display:grid;grid-template-columns:1fr 1fr}}
+
+.welcome-tracking{border-top:1px solid #ccc;margin-top:18px;padding-top:16px;font-size:14px;line-height:1.5}
+.welcome-tracking h3{font-size:16px;margin:0 0 8px}
+.welcome-tracking>p{margin:0 0 12px;color:#555}
+.welcome-tracking .analytics-choice-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+[data-analytics-status]{font-size:13px;margin:8px 0 0;color:#555}
+[data-analytics-status][hidden]{display:none}

@@ -7,7 +7,7 @@ An independent student gift finder. The live quiz matches a fixed collection of 
 - `dist/catalog.js`: fixed quiz gift data and five previously identity-checked Amazon listings. Planning budget tiers are not live seller prices. Keep `bestguess0f-20` as the supplied affiliate tracking ID.
 - `guides.mjs`: four distinct buying guides. Technical examples cite primary sources. These are buying notes, not personally tested product reviews.
 - `build-content.mjs`: generates the homepage, guides, About, Privacy, explicit 404, robots.txt, and sitemap.xml. Run `node build-content.mjs` after changing guides or layout.
-- `dist/app.js`: local questionnaire and optional, dismissible instructions. Answers live only in page memory. Quiz-start and quiz-completion events are sent to GA4 only when analytics is allowed.
+- `dist/app.js`: local questionnaire. `dist/ui.js` opens the dismissible instructions on every homepage visit, independently of the gift catalog. Answers live only in page memory. Quiz-start and quiz-completion events are sent to GA4 only when analytics is allowed.
 - `dist/style.css`: square responsive design, keyboard focus styling, and readable article layout.
 
 ## Amazon product cards
@@ -30,6 +30,6 @@ Photo: Katya Azimova / Unsplash, existing licensed gift image. Do not copy Amazo
 
 ## Visitor analytics
 
-GA4 property `G-T1Y7QQEW1P` is installed through `dist/analytics.js` on all pages. A small privacy choice blocks its loader until the visitor allows analytics. The choice expires after six months and can be changed from the footer. Localhost previews never load or send Analytics. The custom events are `quiz_start`, `quiz_complete`, and `amazon_click`; completion is counted once per quiz run. Only Amazon-click events include a gift ID and product/search link type. Quiz answer values are excluded. AdSense consent remains separate.
+GA4 property `G-T1Y7QQEW1P` is installed through `dist/analytics.js` on all pages. Tracking options appear inside the welcome popup and in a banner rendered in the HTML. The header and footer always include a Tracking choices button. A saved choice hides the banner but stays visible in the popup. Google Analytics stays off until the visitor allows tracking. The choice expires after six months and can be changed from the popup, header, or footer. Localhost previews never load or send Analytics. The custom events are `quiz_start`, `quiz_complete`, and `amazon_click`; completion is counted once per quiz run. Only Amazon-click events include a gift ID and product/search link type. Quiz answer values are excluded. AdSense consent remains separate.
 
 Open Google Analytics → Reports → Realtime to check new activity after publishing. Standard reports can take 24–48 hours to process. Mark `quiz_complete` and `amazon_click` as key events in Admin → Events if you want them counted as conversions. There is no historical visitor data from before this tag was installed. Installation and event behavior were tested locally; access to this Analytics property was not available to confirm report delivery.

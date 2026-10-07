@@ -54,6 +54,7 @@
     applyChoice();
     if (choice === 'declined') clearAnalyticsCookies();
     banner.hidden = true;
+    updateStatus();
   }
 
   window.giftAnalytics = {
@@ -69,21 +70,22 @@
     }
   };
 
-  const banner = document.createElement('section');
-  banner.className = 'analytics-choice';
-  banner.setAttribute('aria-label', 'Analytics privacy choices');
-  banner.innerHTML = '<p>Can we use Google Analytics to count visits and see how the quiz is used? <a href="privacy.html#analytics">Privacy details</a></p><div class="analytics-choice-actions"><button class="secondary" data-analytics-choice="accepted">Allow analytics</button><button class="secondary" data-analytics-choice="declined">No thanks</button></div>';
+  const banner = document.querySelector('#analytics-notice');
+  if (!banner) return;
   banner.hidden = choice !== null;
   let returnFocus = null;
-  banner.addEventListener('click', event => {
+  function updateStatus() {
+    document.querySelectorAll('[data-analytics-status]').forEach(status => {
+      status.hidden = choice === null;
+      status.textContent = choice === 'accepted' ? 'Tracking is on.' : choice === 'declined' ? 'Tracking is off.' : '';
+    });
+  }
+  document.addEventListener('click', event => {
     const button = event.target.closest('[data-analytics-choice]');
     if (!button) return;
     saveChoice(button.dataset.analyticsChoice);
-    if (returnFocus) returnFocus.focus({preventScroll: true});
+    if (returnFocus && !document.querySelector('#welcome-dialog')?.open) returnFocus.focus({preventScroll: true});
   });
-  const header = document.querySelector('header');
-  if (header) header.after(banner);
-  else document.body.append(banner);
   document.querySelectorAll('[data-analytics-settings]').forEach(button => {
     button.hidden = false;
     button.addEventListener('click', () => {
@@ -102,5 +104,6 @@
       link_type: url.pathname.startsWith('/dp/') ? 'product' : 'search'
     });
   });
+  updateStatus();
   applyChoice();
 })();
