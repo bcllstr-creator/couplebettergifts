@@ -54,7 +54,8 @@
     applyChoice();
     if (choice === 'declined') clearAnalyticsCookies();
     banner.hidden = true;
-    updateStatus();
+    choiceLocked = true;
+    updateChoice();
   }
 
   window.giftAnalytics = {
@@ -74,26 +75,30 @@
   if (!banner) return;
   banner.hidden = choice !== null;
   let returnFocus = null;
-  function updateStatus() {
+  let choiceLocked = choice !== null;
+  function updateChoice() {
     document.querySelectorAll('[data-analytics-choice]').forEach(button => {
       button.setAttribute('aria-pressed', String(button.dataset.analyticsChoice === choice));
+      button.disabled = choiceLocked;
     });
-    document.querySelectorAll('[data-analytics-status]').forEach(status => {
-      status.hidden = choice === null;
-      status.textContent = choice === 'accepted' ? 'Tracking is on.' : choice === 'declined' ? 'Tracking is off.' : '';
+    document.querySelectorAll('.welcome-tracking').forEach(section => {
+      section.classList.toggle('choice-complete', choiceLocked);
     });
   }
   document.addEventListener('click', event => {
     const button = event.target.closest('[data-analytics-choice]');
-    if (!button) return;
+    if (!button || button.disabled) return;
     saveChoice(button.dataset.analyticsChoice);
-    if (returnFocus && !document.querySelector('#welcome-dialog')?.open) returnFocus.focus({preventScroll: true});
+    if (document.querySelector('#welcome-dialog')?.open) document.querySelector('#welcome-start')?.focus();
+    else if (returnFocus) returnFocus.focus({preventScroll: true});
   });
   document.querySelectorAll('[data-analytics-settings]').forEach(button => {
     button.hidden = false;
     button.addEventListener('click', () => {
       returnFocus = button;
       banner.hidden = false;
+      choiceLocked = false;
+      updateChoice();
       banner.querySelector('button').focus();
     });
   });
@@ -107,6 +112,6 @@
       link_type: url.pathname.startsWith('/dp/') ? 'product' : 'search'
     });
   });
-  updateStatus();
+  updateChoice();
   applyChoice();
 })();
