@@ -75,6 +75,9 @@
   banner.hidden = choice !== null;
   let returnFocus = null;
   function updateStatus() {
+    document.querySelectorAll('[data-analytics-choice]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.analyticsChoice === choice));
+    });
     document.querySelectorAll('[data-analytics-status]').forEach(status => {
       status.hidden = choice === null;
       status.textContent = choice === 'accepted' ? 'Tracking is on.' : choice === 'declined' ? 'Tracking is off.' : '';
