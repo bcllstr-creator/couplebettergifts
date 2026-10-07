@@ -10,7 +10,7 @@
   function closeWelcome(startQuiz = false) {
     welcome.close();
     document.body.classList.remove('welcome-open');
-    const target = startQuiz ? document.querySelector('#quiz h2') : help;
+    const target = startQuiz ? document.querySelector('#quiz [data-start], #quiz h2') : help;
     target?.focus({preventScroll: true});
   }
   help.addEventListener('click', openWelcome);
