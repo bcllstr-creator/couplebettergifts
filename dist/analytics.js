@@ -60,11 +60,13 @@
 
   window.giftAnalytics = {
     track(name, details = {}) {
-      if (choice !== 'accepted' || !production || !['quiz_start', 'quiz_complete', 'amazon_click'].includes(name)) return false;
+      if (choice !== 'accepted' || !production || !['quiz_start', 'quiz_complete', 'retailer_click'].includes(name)) return false;
       const params = {};
-      if (name === 'amazon_click') {
+      if (name === 'retailer_click') {
         if (typeof details.gift_id === 'string') params.gift_id = details.gift_id;
         if (['product', 'search'].includes(details.link_type)) params.link_type = details.link_type;
+        if (['amazon', 'bookshop', 'lovebook', 'personalizationmall', 'miniaturemarket', 'lovepop'].includes(details.merchant)) params.merchant = details.merchant;
+        params.affiliate = details.affiliate === true;
       }
       window.gtag('event', name, params);
       return true;
@@ -103,13 +105,13 @@
     });
   });
   document.addEventListener('click', event => {
-    const link = event.target.closest('a[href]');
+    const link = event.target.closest('a[data-shop-link]');
     if (!link) return;
-    const url = new URL(link.href);
-    if (url.hostname !== 'www.amazon.com' && url.hostname !== 'amazon.com') return;
-    window.giftAnalytics.track('amazon_click', {
+    window.giftAnalytics.track('retailer_click', {
       gift_id: link.closest('[data-gift-id]')?.dataset.giftId,
-      link_type: url.pathname.startsWith('/dp/') ? 'product' : 'search'
+      merchant: link.closest('[data-merchant]')?.dataset.merchant,
+      affiliate: link.relList.contains('sponsored'),
+      link_type: link.dataset.linkType
     });
   });
   updateChoice();

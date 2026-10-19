@@ -1,48 +1,80 @@
-import {gifts,categories,config} from './catalog.js?v=7';
+import {budgets,interests,styles,platforms,shortlist,purchase,merchantName} from './quiz-engine.js?v=21';
 const root=document.querySelector('#quiz');
 const welcome=document.querySelector('#welcome-dialog');
-const state={ready:false,step:0,answers:{},expanded:false,completed:false};
-const stages=['budget','recipient','age','interest','detail','style'];
-const budgetLabels={1:'Up to $25',2:'Up to $50',3:'Up to $100',4:'Up to $200'};
-const styles={practical:'Something useful',personal:'Something personal',fun:'Something fun',wow:'A bigger surprise',any:'Surprise me'};
-const escape=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pronoun=()=>state.answers.recipient==='girl'?'her':state.answers.recipient==='boy'?'him':'them';
-function question(){const p=pronoun();return {
-budget:{title:'First, what’s your budget?',subtitle:'',choices:Object.entries(budgetLabels).map(([id,title])=>({id,title,subtitle:{1:'A small gift',2:'Something extra',3:'A bigger gift',4:'A special occasion'}[id]}))},
-recipient:{title:'Who are you shopping for?',subtitle:'',choices:[{id:'boy',title:'Gifts for boys',subtitle:'Boyfriend, brother, friend, or someone else'},{id:'girl',title:'Gifts for girls',subtitle:'Girlfriend, sister, friend, or someone else'},{id:'anyone',title:'Gifts for anyone',subtitle:'Someone else'}]},
-age:{title:`How old is ${p==='them'?'the recipient':p==='him'?'he':'she'}?`,subtitle:'',choices:[{id:'13',title:'13–17',subtitle:'Teen years'},{id:'18',title:'18–24',subtitle:'Young adults'},{id:'25',title:'25+',subtitle:'Adults'}]},
-interest:{title:`What sounds most like ${p}?`,subtitle:'Choose the closest match.',choices:[{id:'nerdy',title:'A little nerdy',subtitle:'Games, fantasy worlds, and campaigns'},{id:'outside',title:'Always outside',subtitle:'Hiking, camping, hunting, or fishing'},{id:'creative',title:'The creative type',subtitle:'Art, crafts, and music'},{id:'food',title:'Into food & drinks',subtitle:'Cooking, baking, coffee, or tea'},{id:'active',title:'Active & connected',subtitle:'Fitness, sports, and useful gadgets'},{id:'everyday',title:'Loves the little things',subtitle:'Cozy nights and meaningful keepsakes'}]},
-detail:{title:state.answers.interest==='nerdy'?`What does ${p==='him'?'he':p==='her'?'she':'the recipient'} geek out about?`:state.answers.interest==='outside'?'What’s their kind of adventure?':'Let’s get a little more specific.',subtitle:'Choose their strongest interest for the closest matches.',choices:Object.entries(categories).filter(([,c])=>c.group===state.answers.interest).map(([id,c])=>({id,title:c.name,subtitle:{games:'Consoles, PCs, and one more level',books:'Favorite worlds and one more chapter',tabletop:'Characters, campaigns, and lucky rolls',outdoors:'Trails, campfires, and fresh air',hunting:'Early mornings and time in the field',art:'Drawing, crafting, and new projects',music:'Playing an instrument or loving a playlist',cooking:'Kitchen experiments and homemade treats',drinks:'A favorite daily brewing ritual',fitness:'Workouts, movement, and personal goals',tech:'A useful upgrade to the everyday setup',cozy:'Comfort and memories worth keeping'}[id]}))},
-style:{title:'What kind of gift feels right?',subtitle:'',choices:Object.entries(styles).map(([id,title])=>({id,title,subtitle:{practical:'They’ll reach for it again and again',personal:'A reminder that you know them well',fun:'An activity or a little extra joy',wow:'An upgrade for a special occasion',any:'Show me the best mix'}[id]}))}
-}[stages[state.step]];}
-export function recommend(answers){return gifts.filter(g=>g.category===answers.detail&&g.budget<=Number(answers.budget)&&g.minAge<=Number(answers.age)).sort((a,b)=>{const score=g=>(g.style===answers.style?10:0)+g.budget;return score(b)-score(a)||a.id.localeCompare(b.id);});}
-function startQuiz(){if(welcome.open||state.ready)return;state.ready=true;window.giftAnalytics?.track('quiz_start');render();}
-export function answer(value){if(welcome.open)throw new Error('Read the introduction and choose LET’S GO! first.');if(!state.ready)throw new Error('Choose Start quiz first.');const q=question();if(state.step>=stages.length||!q?.choices.some(c=>c.id===String(value)))throw new Error('That answer is not available for this question.');state.answers[stages[state.step]]=String(value);for(const stage of stages.slice(state.step+1))delete state.answers[stage];state.step++;state.expanded=false;if(state.step===stages.length&&!state.completed){state.completed=true;window.giftAnalytics?.track('quiz_complete');}render();return {step:state.step,answers:{...state.answers}};}
-function back(){if(state.step>0){state.step--;for(const key of stages.slice(state.step))delete state.answers[key];}state.expanded=false;render();}
-function restart(){state.ready=false;state.step=0;state.answers={};state.expanded=false;state.completed=false;render();}
-function productLink(g){const url=new URL(g.url||'https://www.amazon.com/s');if(!g.url)url.searchParams.set('k',g.query);url.searchParams.delete('tag');if(config.affiliateTag)url.searchParams.set('tag',config.affiliateTag);return url.href;}
-function card(g,index,results=false){
-  const c=categories[g.category],matches=g.style===state.answers.style;
-  const direct=Boolean(g.asin&&g.url&&g.listingName);
-  const href=escape(productLink(g));
-  const rel=`noopener noreferrer${config.affiliateTag?' sponsored':''}`;
-  return `<article class="gift-card${direct?' product-card':''}" data-gift-id="${escape(g.id)}"><div class="gift-card-top"><span class="category-label">${escape(c.name)}</span><span class="budget-chip">${budgetLabels[g.budget]} idea</span></div>${results?`<span class="match-label">${index===0?'FIRST PICK':matches?'MATCHES YOUR GIFT STYLE':'ALSO WORTH A LOOK'}</span>`:''}<h3>${direct?`<a href="${href}" target="_blank" rel="${rel}">${escape(g.listingName)}<span class="sr-only"> (opens in a new tab)</span></a>`:escape(g.name)}</h3><p>${escape(g.description)}</p>${direct?`<div class="amazon-merchant"><a class="amazon-badge" href="${href}" target="_blank" rel="${rel}"><img src="assets/available-at-amazon.png" width="170" height="28" alt="Available at Amazon"><span class="sr-only">: ${escape(g.listingName)} (opens in a new tab)</span></a></div>`:'<p class="search-label">Amazon search</p>'}<details><summary>Check before buying</summary><p>${escape(g.check)}</p></details><a class="shop-link${direct?' amazon-product-link':''}" href="${href}" target="_blank" rel="${rel}">${direct?'View product on Amazon':'Find options on Amazon'}<span class="sr-only"> (opens in a new tab)</span></a></article>`;
+const initial=()=>({budget:'',interests:[],platform:'unknown',style:'any',customization:'either',recipient:'any'});
+const state={ready:false,step:0,answers:initial(),expanded:false,completed:false,excluded:[]};
+const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const stages=()=>['budget','interests',...(state.answers.interests.includes('games')?['platform']:[]),'style','details'];
+const names={budget:'Budget',interests:'Interests',platform:'Gaming system',style:'Gift type',details:'Final details'};
+const labels={any:'Someone else / prefer not to say',partner:'Adult partner',friend:'Adult friend',family:'Adult family member',teen:'Teen (13–17)'};
+function choice(value,title,subtitle='',selected=false){return `<button class="choice${selected?' selected':''}" data-answer="${escape(value)}" aria-pressed="${selected}"><span><strong>${title}</strong>${subtitle?`<small>${subtitle}</small>`:''}</span><span class="choice-mark" aria-hidden="true">${selected?'✓':'+'}</span></button>`;}
+function question(){
+ const a=state.answers;
+ switch(stages()[state.step]){
+ case 'budget':return `<h2 tabindex="-1">What’s your budget?</h2><div class="choices two-columns">${Object.entries(budgets).map(([id,title])=>choice(id,title,'',a.budget===id)).join('')}</div><p class="question-note">Leave a little room for shipping and tax.</p>`;
+ case 'interests':return `<h2 tabindex="-1">What do they enjoy?</h2><p class="question-note">Pick up to two.</p><div class="choices interest-choices">${Object.entries(interests).map(([id,title])=>choice(id,title,'',a.interests.includes(id))).join('')}</div><button class="text-button unsure-choice" data-answer="unsure" aria-pressed="${a.interests.includes('unsure')}">${a.interests.includes('unsure')?'Selected: I’m not sure':'I’m not sure'}</button><div class="quiz-next"><span id="interest-count" role="status">${a.interests.includes('unsure')?'We’ll show a mix.':a.interests.length===2?'Two selected. Remove one to change.':`${a.interests.length} of 2 selected`}</span><button class="primary" data-next ${a.interests.length?'':'disabled'}>Continue</button></div>`;
+ case 'platform':return `<h2 tabindex="-1">What do they play on?</h2><p class="question-note">This helps us avoid accessories for the wrong system.</p><div class="choices two-columns">${Object.entries(platforms).map(([id,title])=>choice(id,title,'',a.platform===id)).join('')}</div>`;
+ case 'style':return `<h2 tabindex="-1">What kind of gift feels right?</h2><div class="choices two-columns">${Object.entries(styles).map(([id,title])=>choice(id,title,{practical:'Useful in their daily routine',personal:'A keepsake or a personal touch',fun:'A game, project, or activity',any:'A few different directions'}[id],a.style===id)).join('')}</div>`;
+ case 'details':return `<h2 tabindex="-1">A couple of final details.</h2><label class="field-label" for="recipient">Who is it for?</label><select id="recipient" class="recipient-select">${Object.entries(labels).map(([id,label])=>`<option value="${id}" ${a.recipient===id?'selected':''}>${label}</option>`).join('')}</select><fieldset class="customization"><legend>Would you like to personalize it?</legend><div class="choices preference-choices">${[['ready','Keep it ready-made'],['custom','Open to names or photos'],['either','Either works']].map(([id,title])=>`<button class="choice${a.customization===id?' selected':''}" data-custom="${id}" aria-pressed="${a.customization===id}"><strong>${title}</strong></button>`).join('')}</div></fieldset><button class="primary finish-quiz" data-finish>See my gifts</button>`;
+ }
 }
-function render(focus=true){const results=state.ready&&state.step===stages.length;document.body.classList.toggle('wide',results);document.querySelector('#step-label').textContent=!state.ready?'GIFT QUIZ':results?'YOUR SHORTLIST':`${String(state.step+1).padStart(2,'0')} / ${['BUDGET','RECIPIENT','AGE','INTERESTS','THE DETAILS','GIFT STYLE'][state.step]}`;document.querySelector('#step-count').textContent=!state.ready?'6 questions':results?'Quiz complete':`${state.step+1} of ${stages.length}`;document.querySelector('#progress-fill').style.width=!state.ready?'0%':results?'100%':`${(state.step+1)/stages.length*100}%`;document.querySelector('#back').hidden=!state.ready||state.step===0;
-if(!state.ready){root.innerHTML='<h2 tabindex="-1">Gift quiz</h2><button class="primary" data-start>Start quiz</button>'; }
-else if(results){const matches=recommend(state.answers);const shown=state.expanded?matches:matches.slice(0,3);root.innerHTML=`<span class="tag">GIFT IDEAS FOR ${pronoun().toUpperCase()}</span><h2 tabindex="-1">Recommended gifts</h2><div class="answer-summary"><span>${budgetLabels[state.answers.budget]}</span><span>${categories[state.answers.detail].name}</span><span>${styles[state.answers.style]}</span></div><p class="intro result-intro">${matches.length} gift ideas for ${pronoun()}. Check Amazon for prices and delivery.</p><div class="gift-grid">${shown.map((g,i)=>card(g,i,true)).join('')}</div>${matches.length>3?`<button class="secondary more" data-more>${state.expanded?'Show the top 3':`See ${matches.length-3} more matching ${matches.length===4?'idea':'ideas'}`}</button>`:''}<div class="result-actions"><button class="primary" data-restart>Find a gift for someone else</button><button class="text-button" data-back>Change my answers</button></div>`;}
-else{const q=question();root.innerHTML=`<h2 tabindex="-1">${q.title}</h2>${q.subtitle?`<p class="intro">${q.subtitle}</p>`:''}<div class="choices ${q.choices.length>3?'two-columns':''}">${q.choices.map(c=>`<button class="choice" data-answer="${c.id}"><span><strong>${c.title}</strong><small>${c.subtitle}</small></span></button>`).join('')}</div>`;}
-document.querySelector('#disclosure').textContent=config.affiliateTag?'As an Amazon Associate I earn from qualifying purchases. We may earn a commission when you buy through our links.':'Links open Amazon product pages or searches, as labeled. Affiliate commissions are not currently enabled.';
-if(focus){
-  root.querySelector('h2')?.focus({preventScroll:true});
-  document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});
-  root.classList.remove('quiz-enter');
-  // Restart the short entrance when the same element shows a new question.
-  void root.offsetWidth;
-  root.classList.add('quiz-enter');
-}}
-root.addEventListener('click',event=>{const el=event.target.closest('[data-start],[data-answer],[data-restart],[data-back],[data-more]');if(!el)return;if(el.hasAttribute('data-start'))startQuiz();else if(el.dataset.answer!==undefined)answer(el.dataset.answer);else if(el.hasAttribute('data-restart'))restart();else if(el.hasAttribute('data-back'))back();else{state.expanded=!state.expanded;render();}});
-document.querySelector('#back').addEventListener('click',back);document.querySelector('#home').addEventListener('click',event=>{event.preventDefault();restart();});render(false);
-// Preserve the prototype's browser tool, using the same validated action as UI buttons.
-if(document.modelContext?.registerTool){try{Promise.resolve(document.modelContext.registerTool({name:'answer_gift_quiz',description:'Click Start quiz first, then choose an available answer for the current gift quiz question. Values are the data-answer IDs on visible answer buttons.',inputSchema:{type:'object',properties:{answer:{type:'string'}},required:['answer'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:input=>answer(input.answer)})).catch(()=>{});}catch{}}
-
+function start(){if(welcome.open||state.ready)return;state.ready=true;window.giftAnalytics?.track('quiz_start');render();}
+export function answer(value){
+ if(welcome.open)throw new Error('Close the introduction first.');
+ if(!state.ready)throw new Error('Choose Start quiz first.');
+ const stage=stages()[state.step],a=state.answers;
+ if(stage==='interests'){
+  if(value==='unsure')a.interests=a.interests.includes('unsure')?[]:['unsure'];
+  else{if(!interests[value])throw new Error('Choose an available interest.');a.interests=a.interests.filter(id=>id!=='unsure');if(a.interests.includes(value))a.interests=a.interests.filter(id=>id!==value);else if(a.interests.length<2)a.interests.push(value);}
+  if(!a.interests.includes('games'))a.platform='unknown';state.excluded=[];render(false);return;
+ }
+ const options=stage==='budget'?budgets:stage==='platform'?platforms:stage==='style'?styles:null;
+ if(!options||!Object.hasOwn(options,value))throw new Error('Choose an available answer.');
+ a[stage]=value;state.step++;state.excluded=[];render();
+}
+function next(){if(stages()[state.step]==='interests'&&state.answers.interests.length){state.step++;render();}}
+function back(){if(state.step>0)state.step--;state.expanded=false;render();}
+function restart(){Object.assign(state,{ready:false,step:0,answers:initial(),expanded:false,completed:false,excluded:[]});render();}
+function complete(){state.answers.recipient=document.querySelector('#recipient').value;if(!state.completed){state.completed=true;window.giftAnalytics?.track('quiz_complete');}state.step=stages().length;state.expanded=false;render();}
+function giftCard(g,index){
+ const link=purchase(g),store=merchantName(link.merchant),direct=link.type==='product';
+ const matching=g.interests.filter(c=>state.answers.interests.includes(c));
+ const category=interests[matching[0]||g.category]||'Gift idea';
+ const cta=link.merchant==='lovebook'&&g.personalized?'Customize at LoveBook':direct?`View at ${store}`:'Browse options at Amazon';
+ return `<article class="gift-card" data-gift-id="${g.id}" data-merchant="${link.merchant}"><div class="gift-card-top"><span class="card-category"><span class="gift-card-number" aria-hidden="true">${String(index+1).padStart(2,'0')}</span><span class="category-label">${escape(category)}</span></span><button class="dismiss-gift" data-dismiss="${g.id}" aria-label="Skip ${escape(g.listingName||g.name)}">Skip</button></div><div class="gift-meta"><span>${escape(store)}</span><span>${budgets[g.budget]}</span></div><h3><a href="${escape(link.url)}" data-shop-link data-link-type="${link.type}" target="_blank" rel="noopener noreferrer${link.affiliate?' sponsored':''}">${escape(g.listingName||g.name)}</a></h3><p>${escape(g.description)}</p>${g.note||g.personalized?`<div class="product-note">${escape(g.note||(g.personalized?'Personalized to order':''))}</div>`:''}<details><summary>Before you order</summary><p>${escape(g.check)}</p></details><div class="gift-shop"><a class="shop-link${link.merchant==='amazon'&&direct?' amazon-product-link':''}" href="${escape(link.url)}" data-shop-link data-link-type="${link.type}" target="_blank" rel="noopener noreferrer${link.affiliate?' sponsored':''}">${link.merchant==='amazon'&&direct?'<img src="assets/available-at-amazon.png" alt="Available at Amazon" width="170"><span class="sr-only">'+cta+'</span>':cta}<span class="sr-only"> (opens in a new tab)</span></a><span class="link-label">${link.affiliate?'Affiliate link':direct?'Retailer link':'Amazon search'}</span></div></article>`;
+}
+function results(){
+ const matches=shortlist(state.answers,{excluded:state.excluded});
+ const shown=state.expanded?matches.slice(0,9):matches.slice(0,3),a=state.answers;
+ return `<div class="results-heading"><span class="eyebrow">YOUR SHORTLIST</span><h2 tabindex="-1">A few gifts to consider.</h2><div class="answer-summary"><button data-edit="budget">${budgets[a.budget]}</button><button data-edit="interests">${a.interests.includes('unsure')?'A mix of interests':a.interests.map(id=>interests[id]).join(' + ')}</button></div></div>${shown.length?`<div class="gift-grid">${shown.map(giftCard).join('')}</div><p class="results-note">Check the store for today’s price, delivery, and returns. Budget ranges are a guide.</p>`:`<div class="empty-results"><h3>Let’s try a different direction.</h3><p>Change an interest, allow personalization, or raise the budget to see more options.</p><button class="secondary" data-edit="interests">Change interests</button>${state.excluded.length?'<button class="text-button" data-undo>Bring back skipped gifts</button>':''}</div>`}${matches.length>3?`<button class="secondary more" data-more>${state.expanded?'Show the first three':'Show more ideas'}</button>`:''}<div class="result-actions"><button class="text-button" data-back>Change answers</button>${state.excluded.length?'<button class="text-button" data-undo>Undo skipped gifts</button>':''}<button class="text-button" data-restart>Start over</button></div>`;
+}
+function render(focus=true){
+ const steps=stages(),done=state.ready&&state.step===steps.length;
+ document.body.classList.toggle('showing-results',done);
+ document.querySelector('#step-label').textContent=!state.ready?'THE GIFT FINDER':done?'YOUR RESULTS':names[steps[state.step]];
+ document.querySelector('#step-count').textContent=!state.ready?'':done?'':`${state.step+1} / ${steps.length}`;
+ document.querySelector('#progress-fill').style.width=!state.ready?'0%':done?'100%':`${(state.step+1)/steps.length*100}%`;
+ document.querySelector('#back').hidden=!state.ready||state.step===0;
+ root.innerHTML=!state.ready?`<div class="quiz-start"><span class="eyebrow">START WITH WHAT THEY ENJOY</span><h2 tabindex="-1">What would they love?</h2><p>Choose a budget and their interests.</p><button class="primary" data-start>Start quiz</button><span class="start-note">Free to use. No account.</span></div>`:done?results():question();
+ document.querySelector('.quiz-panel').classList.toggle('start-panel',!state.ready);
+ document.querySelector('.quiz-panel').classList.toggle('results-panel',done);
+ if(focus){root.querySelector('h2')?.focus({preventScroll:true});document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});root.classList.remove('quiz-enter');void root.offsetWidth;root.classList.add('quiz-enter');}
+}
+root.addEventListener('change',event=>{if(event.target.id==='recipient')state.answers.recipient=event.target.value;});
+root.addEventListener('click',event=>{
+ const el=event.target.closest('[data-start],[data-answer],[data-next],[data-custom],[data-finish],[data-restart],[data-back],[data-more],[data-edit],[data-dismiss],[data-undo]');if(!el)return;
+ if(el.hasAttribute('data-start'))start();
+ else if(el.hasAttribute('data-answer')){const value=el.dataset.answer;answer(value);if(stages()[state.step]==='interests')root.querySelector(`[data-answer="${value}"]`)?.focus({preventScroll:true});}
+ else if(el.hasAttribute('data-next'))next();
+ else if(el.hasAttribute('data-custom')){state.answers.recipient=document.querySelector('#recipient').value;state.answers.customization=el.dataset.custom;render(false);root.querySelector(`[data-custom="${el.dataset.custom}"]`)?.focus({preventScroll:true});}
+ else if(el.hasAttribute('data-finish'))complete();
+ else if(el.hasAttribute('data-restart'))restart();
+ else if(el.hasAttribute('data-back'))back();
+ else if(el.hasAttribute('data-more')){state.expanded=!state.expanded;render();}
+ else if(el.hasAttribute('data-edit')){state.step=stages().indexOf(el.dataset.edit);state.expanded=false;render();}
+ else if(el.hasAttribute('data-dismiss')){state.excluded.push(el.dataset.dismiss);render();}
+ else{state.excluded=[];render();}
+});
+document.querySelector('#back').addEventListener('click',back);
+document.querySelector('#home').addEventListener('click',event=>{event.preventDefault();restart();});render(false);
+if(document.modelContext?.registerTool){try{Promise.resolve(document.modelContext.registerTool({name:'answer_gift_quiz',description:'After Start quiz, choose a visible data-answer value. Interests allow two selections; Continue advances. Use the final details form to show gifts.',inputSchema:{type:'object',properties:{answer:{type:'string'}},required:['answer'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:input=>{answer(input.answer);return {step:stages()[state.step]||'results'};}})).catch(()=>{});}catch{}}

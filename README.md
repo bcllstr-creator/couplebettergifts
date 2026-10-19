@@ -1,35 +1,44 @@
 # Couple Better Gifts
 
-An independent student gift finder. The live quiz matches a fixed collection of concepts; it does not generate new recommendations at runtime. Recipient age, interest, gift style, and estimated budget determine matches. There is no published full catalog or total gift-count promotion.
+Live: https://couplebettergifts.com/ . Read HANDOFF.md to continue this project in another AI or editor.
 
-## Content and editing
+## Edit and verify
 
-- `dist/catalog.js`: fixed quiz gift data and five previously identity-checked Amazon listings. Planning budget tiers are not live seller prices. Keep `bestguess0f-20` as the supplied affiliate tracking ID.
-- `guides.mjs`: four distinct buying guides. Technical examples cite primary sources. These are buying notes, not personally tested product reviews.
-- `build-content.mjs`: generates the homepage, guides, About, Privacy, explicit 404, robots.txt, and sitemap.xml. Run `node build-content.mjs` after changing guides or layout.
-- `dist/app.js`: local questionnaire. `dist/ui.js` opens the dismissible instructions on every homepage visit, independently of the gift catalog. After dismissal, Start quiz reveals the budget question; restarting returns to that start screen. Answers live only in page memory. Quiz-start and quiz-completion events are sent to GA4 only when analytics is allowed.
-- `dist/style.css`: square responsive design, keyboard focus styling, and readable article layout.
+Plain HTML/CSS/browser JavaScript. No npm installation or bundler. The host serves `dist/`.
 
-## Amazon product cards
+- `build-content.mjs` generates HTML, sitemap, and robots.txt. `guides.mjs` contains the four article bodies.
+- `dist/catalog.js` contains gift records, verified Amazon ASINs, and `retailerLinks` for approved tracking URLs.
+- `dist/quiz-engine.js` filters by budget, interest, recipient, platform, and personalization; ranking favors interest/style and product variety. Commission rates do not influence ranking.
+- `dist/app.js` renders the start screen, quiz, and shortlist. `dist/ui.js` opens the welcome dialog on every homepage load.
+- `dist/style.css` supplies square responsive layouts, visible focus states, and reduced-motion support.
+- `dist/analytics.js` manages optional GA4 and consent. `dist/ads-content.js` requests article ads.
 
-The five selected listings display their exact product name, direct ASIN link, and the official “Available at Amazon” badge. Other ideas remain labeled Amazon searches. The badge is the unmodified horizontal squid-ink PNG from Amazon's US English asset package, displayed at 170 CSS pixels wide with clear space. Source and usage rules: https://affiliate-program.amazon.com/help/operating/amazonmarks/ . It is a merchant badge, not a product photograph.
+Run `node build-content.mjs` after editing page/guide sources. Run `node --test tests/quiz.test.mjs` for meaningful matching/link checks. Use a static HTTP server serving `dist` for browser QA. Keep a retained terminal session (TTY on this Windows host); otherwise a background server can appear to listen without responding. A typical command is `node preview.cjs`. Set the PORT environment variable to use another port.
 
-The account owner confirmed no Creators API access on October 5, 2026. Product photos and live product data are not connected. Amazon's current documentation lists final program acceptance, API registration/credentials, and 10 qualifying sales in the preceding 30 days for product API access: https://affiliate-program.amazon.com/creatorsapi/docs/en-us/introduction and https://affiliate-program.amazon.com/creatorsapi/docs/en-us/onboarding/register-for-creators-api . Keep credentials on a server when this is implemented. Do not copy retail-page images, synthesize product photos, invent ratings, or put an Amazon page in an iframe. Owner-supplied original or authorized product photos are an alternative for selected products.
+The quiz asks budget, up to two interests, gaming platform when relevant, gift style, and recipient/personalization details. It displays three suggestions, with a larger nine-item shortlist available. Skip/undo, editing answers, and restart keep the process manageable. No public full catalog or total-count promotion. Answers stay in page memory.
 
-Run `python -m http.server 5173 --bind 127.0.0.1 --directory dist` from this directory for local preview.
+## Retailers and affiliate setup
 
-## Advertising after the policy review
+The catalog keeps the original Amazon ideas and adds 21 researched products across Bookshop.org, LoveBook, Personalization Mall, Miniature Market, and Lovepop. See AFFILIATE_SETUP.md for official program terms and enrollment routes; PRODUCT_RESEARCH_BOOKS.md and PRODUCT_RESEARCH_GIFTS.md record the product sources and budget reasoning, checked October 19, 2026.
 
-Only the four complete buying guides include Google’s loader and one labeled bottom banner (`7973839221`). `ads-content.js` requests it once near the viewport while the document is visible. The quiz (including results and help), About, Privacy, and error page have no Google ad loader or ad units. They use the verification meta tag instead. `ads.txt` authorizes the supplied publisher ID.
+Amazon tag: `bestguess0f-20`. Five exact ASIN links retain the official unmodified Available at Amazon badge at 170 CSS pixels with clear space. Other Amazon ideas open labeled searches. Badge source/rules: https://affiliate-program.amazon.com/help/operating/amazonmarks/ . Amazon currently requires the account's product API eligibility before accessing official product data; the owner has no API access. No product photos, live prices, ratings, or reviews have been copied from retailer pages.
 
-Owner reports configuring an AdSense consent message. Confirm it is published for the real domain and applicable regions. Turn off Auto ads in AdSense to preserve the manual article-only layout. Google approval and ad fill are separate from successful code installation.
+New merchants currently have ordinary product URLs and earn no commission for the owner. After approval, add actual network tracking URLs to `retailerLinks`. Preserve them verbatim. Do not append the Amazon tag to another merchant. Example structure:
 
-See `ADSENSE_POLICY_REVIEW.md` for the reviewed policies, evidence, implemented remedies, and account-side tasks. No universal compliance or approval guarantee is claimed. No public contact address is configured yet.
+```js
+export const retailerLinks={
+  'bookshop-tress':{merchant:'bookshop',url:'OWNER_SUPPLIED_APPROVED_HTTPS_URL',affiliate:true}
+};
+```
 
-Photo: Katya Azimova / Unsplash, existing licensed gift image. Do not copy Amazon photos, merchant descriptions, ratings, or reviews without the required rights or official mechanisms. Do not invent licensing, personal testing, seller prices, inventory, author credentials, or reviews.
+Replace the placeholder with a real approved URL before using it. Keep secrets outside this static site. Use merchant-approved creatives or original/authorized product photography. Do not fabricate product photos or hands-on testing. Budget tiers are planning bands, based on conservative listed prices, and require review as prices change.
 
-## Visitor analytics
+## Privacy, measurement, and advertising
 
-GA4 property `G-T1Y7QQEW1P` is installed through `dist/analytics.js` on all pages. Tracking options appear inside the welcome popup and in a banner rendered in the HTML. The header and footer always include a Tracking choices button. A saved choice hides the banner but stays visible in the popup. The selected Allow button is blue; selected No thanks is gray. After either choice, the popup’s tracking section fades slightly and both choice buttons become inactive. Tracking choices in the header or footer explicitly reopens the controls for a change. There are no on/off status messages. The same selection is exposed through aria-pressed and restored on later visits. Google Analytics stays off until the visitor allows tracking. The choice expires after six months and can be changed through Tracking choices in the header or footer. Localhost previews never load or send Analytics. The custom events are `quiz_start`, `quiz_complete`, and `amazon_click`; Start quiz counts a start; completion is counted once per quiz run. Only Amazon-click events include a gift ID and product/search link type. Quiz answer values are excluded. AdSense consent remains separate.
+GA4: `G-T1Y7QQEW1P`. No tag loads until Allow, and localhost never sends analytics. Choice expires after six months. Welcome controls read Allow / No thanks, then fade slightly and disable after choosing. Tracking choices in the header/footer reopens them. No on/off status messages. Quiz answers are excluded from event fields.
 
-Open Google Analytics → Reports → Realtime to check new activity after publishing. Standard reports can take 24–48 hours to process. Mark `quiz_complete` and `amazon_click` as key events in Admin → Events if you want them counted as conversions. There is no historical visitor data from before this tag was installed. Installation and event behavior were tested locally; access to this Analytics property was not available to confirm report delivery.
+Events: `quiz_start`, `quiz_complete` once per run, and `retailer_click`. Clicks include `gift_id`, `merchant`, `affiliate` (boolean), and `link_type` (product/search). **retailer_click replaces amazon_click in this overhaul** and covers all stores. Old event history remains in GA; mark retailer_click as a key event if desired. A click measures outbound interest, not a confirmed sale. Property reports and affiliate sales need account-side checks; access was not available to verify report delivery.
+
+AdSense publisher: `ca-pub-4573556097135456`, unit `7973839221`. Only the four complete editorial guides load the Google advertising script and one labeled bottom banner. Quiz/results/help/About/Privacy/404 carry verification metadata only. Keep Auto ads off to preserve that scope. Owner reports configuring a Google consent message; it manages advertising choices separately. Approval and ad fill are account-side. See ADSENSE_POLICY_REVIEW.md for the original review and remaining owner tasks. No public support email is configured.
+
+Existing photo: Katya Azimova / Unsplash, credited in the source. Public merchant photos are not automatically licensed. No accounts, checkout, or email capture are implemented.
