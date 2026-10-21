@@ -5,3 +5,5 @@ Read HANDOFF.md and README.md before changing this existing site. Page HTML is g
 Preserve the square design, plain copy, no emojis, opening instructions, Start quiz, optional Allow / No thanks consent, and changeable privacy choices. Keep quiz answers out of analytics. Ads are restricted to the four completed buying guides. No public gift-count promotion or full catalog.
 
 Retain the existing Sites manifest/project and domain. Read the current Sites skill for hosting operations; never create a replacement project or claim an unpublished change is live. Do not invent affiliate tracking URLs, approvals, live prices, ratings, tests, or rights to merchant photographs. Ordinary retailer links remain labeled as such until actual approved tracking links are supplied.
+
+Copy rule from the owner: do not add “Free to use,” “No account,” reassurance slogans, or redundant labels. Each sentence should help someone choose a gift, use the quiz, or understand a required disclosure.
