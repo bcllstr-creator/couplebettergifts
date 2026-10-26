@@ -17,6 +17,5 @@
   document.querySelector('#welcome-close').addEventListener('click', () => closeWelcome());
   document.querySelector('#welcome-start').addEventListener('click', () => closeWelcome(true));
   welcome.addEventListener('close', () => document.body.classList.remove('welcome-open'));
-  // Show instructions on each homepage visit, independently of the quiz catalog.
-  openWelcome();
+  // The quiz start screen lists the steps, so the dialog opens only from "How it works".
 })();

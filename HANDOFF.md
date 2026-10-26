@@ -3,6 +3,8 @@
 Use the existing project folder: `C:\Users\bclls\Downloads\Web Bussiness\gift-finder`.
 Live site: https://couplebettergifts.com/
 
+**Update, October 26, 2026:** analytics is now on by default (Consent Mode v2, opt-out via Tracking choices), the homepage popup no longer opens on arrival, six guides were added (ten total), and a Contact page uses couplebettergifts@gmail.com. Hosting moved from ChatGPT Sites to GitHub Pages (push to main to publish). Where this file says otherwise, AGENTS.md is current.
+
 This is an independent BYU–Idaho student business: a free gift quiz with shopping links and four buying guides. Recommendations come from an edited catalog; there is no runtime AI recommendation service, visitor account system, or checkout.
 
 ## Files to edit

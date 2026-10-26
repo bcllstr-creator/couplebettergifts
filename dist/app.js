@@ -18,9 +18,8 @@ function question(){
  case 'details':return `<h2 tabindex="-1">A couple of final details.</h2><label class="field-label" for="recipient">Who is it for?</label><select id="recipient" class="recipient-select">${Object.entries(labels).map(([id,label])=>`<option value="${id}" ${a.recipient===id?'selected':''}>${label}</option>`).join('')}</select><fieldset class="customization"><legend>Would you like to personalize it?</legend><div class="choices preference-choices">${[['ready','Keep it ready-made'],['custom','Open to names or photos'],['either','Either works']].map(([id,title])=>`<button class="choice${a.customization===id?' selected':''}" data-custom="${id}" aria-pressed="${a.customization===id}"><strong>${title}</strong></button>`).join('')}</div></fieldset><button class="primary finish-quiz" data-finish>See my gifts</button>`;
  }
 }
-function start(){if(welcome.open||state.ready)return;state.ready=true;window.giftAnalytics?.track('quiz_start');render();}
+function start(){if(welcome?.open)welcome.close();if(state.ready)return;state.ready=true;window.giftAnalytics?.track('quiz_start');render();}
 export function answer(value){
- if(welcome.open)throw new Error('Close the introduction first.');
  if(!state.ready)throw new Error('Choose Start quiz first.');
  const stage=stages()[state.step],a=state.answers;
  if(stage==='interests'){
@@ -55,7 +54,7 @@ function render(focus=true){
  document.querySelector('#step-count').textContent=!state.ready?'':done?'':`${state.step+1} / ${steps.length}`;
  document.querySelector('#progress-fill').style.width=!state.ready?'0%':done?'100%':`${(state.step+1)/steps.length*100}%`;
  document.querySelector('#back').hidden=!state.ready||state.step===0;
- root.innerHTML=!state.ready?`<div class="quiz-start"><h2 tabindex="-1">What would they love?</h2><p>Choose a budget and their interests.</p><button class="primary" data-start>Start quiz</button></div>`:done?results():question();
+ root.innerHTML=!state.ready?`<div class="quiz-start"><h2 tabindex="-1">What would they love?</h2><ol class="start-steps"><li>Set your budget.</li><li>Pick up to two things they enjoy.</li><li>Get a shortlist and shop at the store.</li></ol><button class="primary" data-start>Start quiz</button></div>`:done?results():question();
  document.querySelector('.quiz-panel').classList.toggle('start-panel',!state.ready);
  document.querySelector('.quiz-panel').classList.toggle('results-panel',done);
  if(focus){root.querySelector('h2')?.focus({preventScroll:true});document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});root.classList.remove('quiz-enter');void root.offsetWidth;root.classList.add('quiz-enter');}

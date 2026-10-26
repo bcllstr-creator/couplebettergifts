@@ -3,8 +3,10 @@
   const choiceKey = 'cbg-analytics-choice-v1';
   const production = ['couplebettergifts.com', 'www.couplebettergifts.com', 'goodguess.benjamincallister224.chatgpt.site'].includes(location.hostname);
   const disableKey = `ga-disable-${measurementId}`;
+  // Regions where storage consent must be asked first. Google's AdSense consent message covers ads there;
+  // analytics sends cookieless pings until consent is given.
+  const askFirstRegions = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'CH'];
   let choice = null;
-  let configured = false;
   try {
     const saved = JSON.parse(localStorage.getItem(choiceKey));
     if (saved?.expires > Date.now() && ['accepted', 'declined'].includes(saved.choice)) choice = saved.choice;
@@ -12,19 +14,22 @@
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-  // AdSense's consent message manages advertising choices separately.
-  window.gtag('consent', 'default', {analytics_storage: 'denied'});
-  window[disableKey] = true;
+  const denied = {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'};
+  const granted = {analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'denied'};
+  window.gtag('consent', 'default', {...denied, region: askFirstRegions});
+  window.gtag('consent', 'default', granted);
+  window.gtag('set', 'ads_data_redaction', true);
 
   function applyChoice() {
-    const allowed = choice === 'accepted' && production;
-    window[disableKey] = !allowed;
-    window.gtag('consent', 'update', {analytics_storage: allowed ? 'granted' : 'denied'});
-    if (!allowed || configured) return;
-    configured = true;
+    window[disableKey] = !production || choice === 'declined';
+    if (choice) window.gtag('consent', 'update', choice === 'accepted' ? granted : denied);
+  }
+  applyChoice();
+
+  // Load the tag on every production page so ad visitors are counted without an extra click.
+  if (production && choice !== 'declined') {
     window.gtag('js', new Date());
     window.gtag('config', measurementId, {
-      cookie_domain: location.hostname,
       allow_google_signals: false,
       allow_ad_personalization_signals: false
     });
@@ -37,10 +42,10 @@
   function clearAnalyticsCookies() {
     for (const cookie of document.cookie.split(';')) {
       const name = cookie.trim().split('=')[0];
-      if (name !== '_ga' && !name.startsWith('_ga_')) continue;
+      if (name !== '_ga' && !name.startsWith('_ga_') && name !== '_gcl_au') continue;
       const expired = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
       document.cookie = expired;
-      for (const domain of [location.hostname, 'couplebettergifts.com']) {
+      for (const domain of [location.hostname, 'couplebettergifts.com', '.couplebettergifts.com']) {
         document.cookie = `${expired}; domain=${domain}`;
       }
     }
@@ -54,19 +59,19 @@
     applyChoice();
     if (choice === 'declined') clearAnalyticsCookies();
     banner.hidden = true;
-    choiceLocked = true;
     updateChoice();
   }
 
   window.giftAnalytics = {
     track(name, details = {}) {
-      if (choice !== 'accepted' || !production || !['quiz_start', 'quiz_complete', 'retailer_click'].includes(name)) return false;
+      if (choice === 'declined' || !production || !['quiz_start', 'quiz_complete', 'retailer_click'].includes(name)) return false;
       const params = {};
       if (name === 'retailer_click') {
         if (typeof details.gift_id === 'string') params.gift_id = details.gift_id;
         if (['product', 'search'].includes(details.link_type)) params.link_type = details.link_type;
         if (['amazon', 'bookshop', 'lovebook', 'personalizationmall', 'miniaturemarket', 'lovepop'].includes(details.merchant)) params.merchant = details.merchant;
         params.affiliate = details.affiliate === true;
+        params.transport_type = 'beacon';
       }
       window.gtag('event', name, params);
       return true;
@@ -75,31 +80,26 @@
 
   const banner = document.querySelector('#analytics-notice');
   if (!banner) return;
-  banner.hidden = choice !== null;
+  // The choice panel opens only from "Tracking choices"; it never blocks the page on arrival.
+  banner.hidden = true;
   let returnFocus = null;
-  let choiceLocked = choice !== null;
   function updateChoice() {
+    const current = choice === 'declined' ? 'declined' : 'accepted';
     document.querySelectorAll('[data-analytics-choice]').forEach(button => {
-      button.setAttribute('aria-pressed', String(button.dataset.analyticsChoice === choice));
-      button.disabled = choiceLocked;
-    });
-    document.querySelectorAll('.welcome-tracking').forEach(section => {
-      section.classList.toggle('choice-complete', choiceLocked);
+      button.setAttribute('aria-pressed', String(button.dataset.analyticsChoice === current));
     });
   }
   document.addEventListener('click', event => {
     const button = event.target.closest('[data-analytics-choice]');
-    if (!button || button.disabled) return;
+    if (!button) return;
     saveChoice(button.dataset.analyticsChoice);
-    if (document.querySelector('#welcome-dialog')?.open) document.querySelector('#welcome-start')?.focus();
-    else if (returnFocus) returnFocus.focus({preventScroll: true});
+    if (returnFocus) returnFocus.focus({preventScroll: true});
   });
   document.querySelectorAll('[data-analytics-settings]').forEach(button => {
     button.hidden = false;
     button.addEventListener('click', () => {
       returnFocus = button;
       banner.hidden = false;
-      choiceLocked = false;
       updateChoice();
       banner.querySelector('button').focus();
     });
@@ -115,5 +115,4 @@
     });
   });
   updateChoice();
-  applyChoice();
 })();
