@@ -54,7 +54,7 @@ function render(focus=true){
  document.querySelector('#step-count').textContent=!state.ready?'':done?'':`${state.step+1} / ${steps.length}`;
  document.querySelector('#progress-fill').style.width=!state.ready?'0%':done?'100%':`${(state.step+1)/steps.length*100}%`;
  document.querySelector('#back').hidden=!state.ready||state.step===0;
- root.innerHTML=!state.ready?`<div class="quiz-start"><h2 tabindex="-1">What would they love?</h2><ol class="start-steps"><li>Set your budget.</li><li>Pick up to two things they enjoy.</li><li>Get a shortlist and shop at the store.</li></ol><button class="primary" data-start>Start quiz</button></div>`:done?results():question();
+ root.innerHTML=!state.ready?`<div class="quiz-start"><h2 tabindex="-1">What would they love?</h2><ol class="start-steps"><li>Set your budget.</li><li>Pick up to two things they enjoy.</li><li>Get a short list with what to check before you buy.</li></ol><button class="primary" data-start>Start quiz</button></div>`:done?results():question();
  document.querySelector('.quiz-panel').classList.toggle('start-panel',!state.ready);
  document.querySelector('.quiz-panel').classList.toggle('results-panel',done);
  if(focus){root.querySelector('h2')?.focus({preventScroll:true});document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});root.classList.remove('quiz-enter');void root.offsetWidth;root.classList.add('quiz-enter');}
