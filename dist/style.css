@@ -1,7 +1,7 @@
 :root{
  --bg:#f4f6f9;--paper:#fff;--ink:#182a3d;--muted:#596675;--line:#dfe4ec;--line-strong:#c4ccd8;
  --accent:#234ee8;--accent-dark:#1736ab;--accent-soft:#edf2ff;--warm:#d9532f;
- --clay:#fbe9e3;--clay-ink:#a63d1f;--rose:#e8ecf3;--rose-ink:#182a3d;--blue:#e6edff;--blue-ink:#2343b8;
+ --clay:#ecebfb;--clay-ink:#4338a8;--rose:#e8ecf3;--rose-ink:#182a3d;--blue:#e6edff;--blue-ink:#2343b8;
  --sage:#e3eff0;--sage-ink:#2f6466;--gold:#f3ebe3;--gold-ink:#7a5634;
  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -63,7 +63,7 @@ h2[tabindex]{outline:none}
 #quiz .quiz-start h2{font-size:34px;margin-bottom:16px}
 .start-steps{list-style:none;counter-reset:step;padding:0;margin:0 0 26px;display:grid;gap:12px}
 .start-steps li{counter-increment:step;display:flex;align-items:center;gap:14px;font-size:16px}
-.start-steps li::before{content:counter(step);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--clay);color:var(--clay-ink);font-weight:700;font-size:14px;flex-shrink:0}
+.start-steps li::before{content:counter(step);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);font-weight:700;font-size:14px;flex-shrink:0}
 .quiz-start .primary{min-width:200px;font-size:16px}
 .panel-bottom{margin-top:14px}
 .panel-bottom:has(button[hidden]){display:none}
