@@ -22,3 +22,24 @@ Bookshop's 30% bookstore rate is for qualified bookstores; it should not be used
 6. Confirm permitted traffic sources, eligible products, attribution rules, returns/reversals, payout requirements, and any required business/tax details in the actual approved agreement. Supply public tracking URLs or approved creatives for implementation; do not send account passwords or secret API keys.
 
 No approval dates, earnings forecasts, or merchant conversion rates have been invented.
+
+## Additional programs researched October 28, 2026
+
+Rates below come from third-party directories unless marked official, and directories often disagree. Confirm the offered rate in the network dashboard before relying on it.
+
+| Store | Matches quiz category | Reported commission | Cookie | Network | Notes |
+|---|---|---|---|---|---|
+| Uncommon Goods | Cozy, art, cooking, general gifts | 5% (official support page) | 30 days | Impact | Gift-focused catalog; best general fit. |
+| Etsy | Personalized, art, cozy | About 4% (Etsy says case by case) | 30 days web, 7 days app | Awin ($5 refundable deposit) | Manual review; may reject low-traffic sites. |
+| REI | Outdoors, fitness | 5% | About 15 days | AvantLink | |
+| Bass Pro Shops / Cabela's | Hunting and fishing | Up to 5%; about 1-2% on firearms and ammo | 14-15 days | AvantLink / others | |
+| Sur La Table | Cooking | 4% (Impact) to 7% (Partnerize) | 15-30 days | Impact or Partnerize | Rate depends on network. |
+| Atlas Coffee Club | Coffee and tea | About $7.50-$11 flat per subscription | 30 days | Pepperjam / others | Flat fee beats a percentage on a $15-$30 item. |
+| Green Man Gaming | Video games (digital) | Up to 5% (official); 10% on its bundles | About 30 days | Direct | |
+| Blick Art Materials | Art | Up to 10% (official); directories report 2-3% | About 1 day | CJ / ShareASale | Very short cookie limits real earnings. |
+
+Not recommended: Target (about 1% on electronics and toys, many 0% categories), Dick's Sporting Goods (about 3%, short cookie), Sweetwater (about 1.6%).
+
+Amazon comparison (reported 2026 standard rates; Amazon reportedly cut some rates mid-2026): physical books and kitchen 4.5%, home, toys, and sports 3%, physical video games 1%. Most catalog Amazon links are searches, which earn only if the visitor buys within Amazon's 24-hour window.
+
+The site records retailer_click for any lowercase store id in catalog.js, so new stores need no analytics change. Add an approved tracking link to retailerLinks in dist/catalog.js and set affiliate:true; the result card then labels it "Affiliate link."

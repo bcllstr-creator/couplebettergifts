@@ -69,7 +69,8 @@
       if (name === 'retailer_click') {
         if (typeof details.gift_id === 'string') params.gift_id = details.gift_id;
         if (['product', 'search'].includes(details.link_type)) params.link_type = details.link_type;
-        if (['amazon', 'bookshop', 'lovebook', 'personalizationmall', 'miniaturemarket', 'lovepop'].includes(details.merchant)) params.merchant = details.merchant;
+        // Store ids come from catalog.js (lowercase letters only), so new stores are recorded without editing this list.
+        if (typeof details.merchant === 'string' && /^[a-z]{2,30}$/.test(details.merchant)) params.merchant = details.merchant;
         params.affiliate = details.affiliate === true;
         params.transport_type = 'beacon';
       }
