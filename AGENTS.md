@@ -2,7 +2,7 @@
 
 Read HANDOFF.md and README.md before changing this existing site. Page HTML is generated from build-content.mjs and guides.mjs. Browser JS/CSS and the catalog live in dist. Run node build-content.mjs and node --test tests/quiz.test.mjs; preview with node preview.cjs in a retained terminal session.
 
-Preserve the square design, plain copy, no emojis, Start quiz with its three inline steps, and changeable privacy choices. Keep quiz answers out of analytics. Ads are restricted to the buying guides in guides.mjs. No public gift-count promotion or full catalog.
+Design (owner-approved October 28, 2026): editorial layout modeled on The Strategist. Text masthead, mono labels (self-hosted IBM Plex Mono), Newsreader serif, square corners, thin and dotted rules, navy #182a3d with blue #234ee8. Guides are photo-led rows, not cards. Do not add icon tiles, pill chips, drop shadows, rounded cards, or pastel palettes; the owner rejected those as looking AI-made. Guide photos are Unsplash-licensed and credited in build-content.mjs (meta.photo). Preserve plain copy, no emojis, Start quiz with its three inline steps, and changeable privacy choices. Keep quiz answers out of analytics. Ads are restricted to the buying guides in guides.mjs. No public gift-count promotion or full catalog.
 
 Owner decision, October 26, 2026: Google Analytics loads on every production page with Consent Mode v2 (granted by default; denied by default in the EEA, UK, and Switzerland). "Tracking choices" lets visitors opt out. Do not return to opt-in-only analytics or an auto-opening homepage popup: both hid ad visitors from Analytics and Google Ads. The "How it works" dialog opens only from its header button.
 
