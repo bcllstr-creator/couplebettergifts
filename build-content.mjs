@@ -6,7 +6,8 @@ const contactEmail='couplebettergifts@gmail.com';
 const updated='October 26, 2026';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slug=s=>s.replace(/<[^>]+>/g,'').replace(/&[a-z#0-9]+;/gi,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const account='<meta name="google-adsense-account" content="ca-pub-4573556097135456">';
+// Ownership checks: AdSense account, and Impact (affiliate network) site verification.
+const account='<meta name="google-adsense-account" content="ca-pub-4573556097135456"><meta name="impact-site-verification" value="0f144096-3a33-46b8-bbf9-3f1db4677e9e">';
 const loader='<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4573556097135456" crossorigin="anonymous"></script>';
 
 // Category and short label for each guide, plus its photo:
