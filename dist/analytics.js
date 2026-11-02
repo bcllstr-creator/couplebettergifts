@@ -12,6 +12,24 @@
     if (saved?.expires > Date.now() && ['accepted', 'declined'].includes(saved.choice)) choice = saved.choice;
   } catch {}
 
+  // Owner and test devices: open any page with ?internal=1 once (?internal=0 undoes it).
+  // Visits are then tagged traffic_type=internal, which the GA4 "Internal Traffic" data filter excludes.
+  // Device-based on purpose: the owner's campus IP is shared with other students.
+  const internalKey = 'cbg-internal-v1';
+  let internal = false;
+  try {
+    const params = new URLSearchParams(location.search);
+    const flag = params.get('internal');
+    if (flag === '1') localStorage.setItem(internalKey, '1');
+    if (flag === '0') localStorage.removeItem(internalKey);
+    if (flag !== null) {
+      params.delete('internal');
+      const query = params.toString();
+      history.replaceState(null, '', location.pathname + (query ? `?${query}` : '') + location.hash);
+    }
+    internal = localStorage.getItem(internalKey) === '1';
+  } catch {}
+
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
   const denied = {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'};
@@ -31,7 +49,8 @@
     window.gtag('js', new Date());
     window.gtag('config', measurementId, {
       allow_google_signals: false,
-      allow_ad_personalization_signals: false
+      allow_ad_personalization_signals: false,
+      ...(internal ? {traffic_type: 'internal'} : {})
     });
     const script = document.createElement('script');
     script.async = true;
