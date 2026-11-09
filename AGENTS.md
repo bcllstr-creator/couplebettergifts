@@ -10,4 +10,4 @@ Hosting moved to GitHub Pages on October 26, 2026 (repository bcllstr-creator/co
 
 Copy rule from the owner: do not add “Free to use,” “No account,” reassurance slogans, or redundant labels. Each sentence should help someone choose a gift, use the quiz, or understand a required disclosure.
 
-Owner decision, November 9, 2026: the quiz's length is a selling point. The start panel shows a large "5 / quick steps to a short list" marker, and the hero says "Five quick steps." Say steps, not questions: the quiz asks five questions on four screens, plus a gaming-system screen only when Gaming is picked, so "5 steps" stays true for everyone and "5 questions" does not. If the quiz gains a screen, update this claim.
+Owner decision, November 9, 2026: the quiz's length is a selling point. The start panel shows a large "5 / quick questions to a short list" marker, and the hero says "Answer five quick questions." The owner chose "questions" over "steps" knowingly: the gaming path adds a sixth question (which system), and that is acceptable. If the quiz gains a question for everyone, update this claim.
