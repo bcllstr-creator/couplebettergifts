@@ -15,6 +15,12 @@ Images are in `social/images/`. Use the `-ig.png` files (1080 x 1350) for Instag
 
 Instagram captions cannot hold clickable links, so Instagram posts say "Link in bio." Facebook posts can carry the link. Facebook tends to show posts with outside links to fewer people, so you can also put the link in the first comment instead.
 
+## Status (November 2, 2026)
+
+- Facebook Page: all three week-1 posts scheduled (Tue Nov 3 7 PM, Thu Nov 5 7 PM, Sat Nov 7 10 AM).
+- Instagram @couplebettergifts: Business account, category Shopping & retail, no public contact info. Quiz post published Nov 2. Its caption names couplebettergifts.com instead of "Link in bio" because the bio link is not added yet (add it in the mobile app). Not yet connected to the Facebook Page.
+- Pinterest: public board "Gift Ideas" with all three week-1 pins, published Nov 2.
+
 ## Week 1 posts
 
 Schedule: Tuesday, Thursday, and Saturday, matching the class plan.

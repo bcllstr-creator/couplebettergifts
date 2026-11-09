@@ -84,6 +84,9 @@ h2[tabindex]{outline:none}
 .progress span{display:block;height:100%;background:var(--blue);transition:width .18s ease-out}
 #quiz h2{font-size:32px;letter-spacing:-.02em;margin:0 0 22px}
 .quiz-start{padding:6px 0 10px}
+.step-claim{display:flex;align-items:center;gap:18px;margin:0 0 20px;padding-bottom:18px;border-bottom:1px dotted #5a6a7c}
+.step-claim b{font-family:var(--serif);font-weight:800;font-size:104px;line-height:.78;letter-spacing:-.04em;color:#fff}
+.step-claim span{font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;line-height:1.5;color:#bacbff}
 #quiz .quiz-start h2{font-size:40px;margin-bottom:16px}
 .start-steps{font-size:18px;line-height:1.5;padding-left:24px;margin:0 0 26px;display:grid;gap:4px;color:#dbe3ec}
 .start-steps li::marker{font-family:var(--mono);font-size:14px;color:#bacbff}
