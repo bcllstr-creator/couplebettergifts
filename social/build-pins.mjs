@@ -96,7 +96,38 @@ li b{font-weight:600;font-size:${pin.rows.length > 3 ? 42 : 48}px;line-height:1.
 <div class="footer"><span>couplebettergifts.com</span><em>Full guide</em></div>
 </div></body></html>`;
 
+// Ad pins for paid Pinterest campaigns: they sell the quiz itself, so they link to the homepage.
+export const adPins = [
+  {id: 'ad-quiz-partner', photo: 'guide-partner.jpg', title: 'Stuck on a gift for them?'},
+  {id: 'ad-quiz-holiday', photo: 'guide-holiday.jpg', title: 'Holiday list not done yet?'},
+  {id: 'ad-quiz-gamer', photo: 'guide-gaming.jpg', title: 'No idea what to get a gamer?'}
+];
+export const adLink = ad => `https://couplebettergifts.com/?utm_source=pinterest&utm_medium=paid_social&utm_campaign=gift_quiz_pinterest&utm_content=${ad.id}`;
+
+const adHtml = ad => `<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:"Newsreader";src:url(${file('fonts/newsreader.woff2')}) format("woff2");font-weight:200 800}
+@font-face{font-family:"Plex Mono";src:url(${file('fonts/plexmono-500.woff2')}) format("woff2");font-weight:500}
+*{box-sizing:border-box;margin:0}
+html,body{width:1000px;height:1500px;overflow:hidden;background:#182a3d}
+.ad{width:1000px;height:1500px;display:flex;flex-direction:column;font-family:"Newsreader",Georgia,serif;color:#fff}
+.photo{height:640px;background:url(${file('assets/' + ad.photo)}) center/cover;position:relative}
+.brand{position:absolute;left:0;top:0;background:#fff;color:#182a3d;padding:18px 26px 16px;font-weight:800;font-size:34px;letter-spacing:-.03em}
+.body{flex:1;padding:52px 64px 56px;display:flex;flex-direction:column}
+h1{font-weight:700;font-size:84px;line-height:1;letter-spacing:-.03em}
+.claim{display:flex;align-items:center;gap:30px;margin-top:44px;padding:30px 0;border-top:1px dotted #5a6a7c;border-bottom:1px dotted #5a6a7c}
+.claim b{font-weight:800;font-size:230px;line-height:.74;letter-spacing:-.05em}
+.claim span{font-family:"Plex Mono",monospace;font-size:34px;letter-spacing:.1em;text-transform:uppercase;line-height:1.45;color:#bacbff}
+.cta{margin-top:auto;display:flex;justify-content:space-between;align-items:center;background:#234ee8;padding:30px 36px;font-family:"Plex Mono",monospace;font-size:30px;letter-spacing:.08em;text-transform:uppercase}
+.cta em{font-style:normal;color:#dce5ff;font-size:24px}
+</style></head><body><div class="ad">
+<div class="photo"><div class="brand">Couple Better Gifts</div></div>
+<div class="body"><h1>${ad.title}</h1>
+<div class="claim"><b>5</b><span>quick questions<br>to a short list<br>of gifts</span></div>
+<div class="cta"><span>Take the gift quiz</span><em>couplebettergifts.com</em></div></div>
+</div></body></html>`;
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   for (const pin of pins) writeFileSync(path.join(out, `${pin.id}.html`), html(pin));
-  console.log(`Wrote ${pins.length} pin pages to ${out}`);
+  for (const ad of adPins) writeFileSync(path.join(out, `${ad.id}.html`), adHtml(ad));
+  console.log(`Wrote ${pins.length} pin pages and ${adPins.length} ad pins to ${out}`);
 }
