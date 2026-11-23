@@ -88,6 +88,11 @@ h2[tabindex]{outline:none}
 .step-claim b{font-family:var(--serif);font-weight:800;font-size:104px;line-height:.78;letter-spacing:-.04em;color:#fff}
 .step-claim span{font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;line-height:1.5;color:#bacbff}
 #quiz .quiz-start h2{font-size:40px;margin-bottom:16px}
+.start-panel .choice{background:transparent;border-color:#5a6a7c;color:#fff;min-height:64px}
+.start-panel .choice:hover{border-color:#fff;background:#22364b}
+.start-panel .choice strong{font-size:20px}
+.start-panel .choice-mark{color:#bacbff}
+.start-note{margin:18px 0 6px;font-size:16px;line-height:1.5;color:#c2cbd5}
 .start-steps{font-size:18px;line-height:1.5;padding-left:24px;margin:0 0 26px;display:grid;gap:4px;color:#dbe3ec}
 .start-steps li::marker{font-family:var(--mono);font-size:14px;color:#bacbff}
 .start-panel{background:var(--ink);color:#fff;border-color:var(--ink)}

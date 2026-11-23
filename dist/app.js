@@ -54,15 +54,16 @@ function render(focus=true){
  document.querySelector('#step-count').textContent=!state.ready?'':done?'':`${state.step+1} / ${steps.length}`;
  document.querySelector('#progress-fill').style.width=!state.ready?'0%':done?'100%':`${(state.step+1)/steps.length*100}%`;
  document.querySelector('#back').hidden=!state.ready||state.step===0;
- root.innerHTML=!state.ready?`<div class="quiz-start"><p class="step-claim"><b>5</b><span>quick questions<br>to a short list</span></p><h2 tabindex="-1">What would they love?</h2><ol class="start-steps"><li>Set your budget.</li><li>Pick up to two things they enjoy.</li><li>Get a short list with what to check before you buy.</li></ol><button class="primary" data-start>Start quiz</button></div>`:done?results():question();
+ root.innerHTML=!state.ready?`<div class="quiz-start"><p class="step-claim"><b>5</b><span>quick questions<br>to a short list</span></p><h2 tabindex="-1">What’s your budget?</h2><div class="choices two-columns start-budgets">${Object.entries(budgets).map(([id,title])=>`<button class="choice" data-start-budget="${id}"><span><strong>${title}</strong></span><span class="choice-mark" aria-hidden="true">+</span></button>`).join('')}</div><p class="start-note">Next: what they enjoy, then a short list with what to check before you buy.</p></div>`:done?results():question();
  document.querySelector('.quiz-panel').classList.toggle('start-panel',!state.ready);
  document.querySelector('.quiz-panel').classList.toggle('results-panel',done);
  if(focus){root.querySelector('h2')?.focus({preventScroll:true});document.querySelector('.quiz-panel').scrollIntoView({behavior:'instant',block:'start'});root.classList.remove('quiz-enter');void root.offsetWidth;root.classList.add('quiz-enter');}
 }
 root.addEventListener('change',event=>{if(event.target.id==='recipient')state.answers.recipient=event.target.value;});
 root.addEventListener('click',event=>{
- const el=event.target.closest('[data-start],[data-answer],[data-next],[data-custom],[data-finish],[data-restart],[data-back],[data-more],[data-edit],[data-dismiss],[data-undo]');if(!el)return;
- if(el.hasAttribute('data-start'))start();
+ const el=event.target.closest('[data-start-budget],[data-start],[data-answer],[data-next],[data-custom],[data-finish],[data-restart],[data-back],[data-more],[data-edit],[data-dismiss],[data-undo]');if(!el)return;
+ if(el.hasAttribute('data-start-budget')){start();answer(el.dataset.startBudget);}
+ else if(el.hasAttribute('data-start'))start();
  else if(el.hasAttribute('data-answer')){const value=el.dataset.answer;answer(value);if(stages()[state.step]==='interests')root.querySelector(`[data-answer="${value}"]`)?.focus({preventScroll:true});}
  else if(el.hasAttribute('data-next'))next();
  else if(el.hasAttribute('data-custom')){state.answers.recipient=document.querySelector('#recipient').value;state.answers.customization=el.dataset.custom;render(false);root.querySelector(`[data-custom="${el.dataset.custom}"]`)?.focus({preventScroll:true});}
