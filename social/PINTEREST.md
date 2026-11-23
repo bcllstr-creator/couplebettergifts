@@ -78,3 +78,75 @@ Each link is `https://couplebettergifts.com/<guide>?utm_source=pinterest&utm_med
 ## Measuring
 
 The account was converted to a free business account on November 9, 2026 (type: Publisher or media), which turned on scheduling and Pinterest Analytics (impressions, saves, and outbound clicks per pin). All nine pins above are scheduled for 12:00 PM daily, November 10 to 18. Site visits show in GA4 as pinterest / organic_social, with the pin id in utm_content.
+
+## December 2026 set
+
+Built by `social/build-pins-december.mjs` (images `social/images/d-*.png`). New photos are in `social/photos` with credits in `social/photos/CREDITS.md`. Pins that link to the homepage end with "Take the 5-question gift quiz"; pins with a matching guide link to it. One pin every two days at 12:00 PM.
+
+| Date | Pin | Board | Link |
+|---|---|---|---|
+| 11/25/2026 | Stocking stuffers they will actually use | Gifts Under $25 | /gifts-under-25.html |
+| 11/27/2026 | Secret Santa gifts under $25 | Gifts Under $25 | /gifts-under-25.html |
+| 11/29/2026 | Gifts for someone who lives on coffee or tea | Gift Ideas | / |
+| 12/01/2026 | Christmas gifts for a gamer | Gifts for Gamers | /gaming-gifts.html |
+| 12/03/2026 | Gifts for someone who loves the outdoors | Gift Ideas | / |
+| 12/05/2026 | Cozy gifts for a night in | Gifts for Your Partner | / |
+| 12/07/2026 | Gifts for someone who loves to bake | Gift Ideas | / |
+| 12/09/2026 | When to order each holiday gift | Holiday Gift Ideas | /holiday-gift-planning.html |
+| 12/11/2026 | Gifts for a music lover | Gift Ideas | / |
+| 12/13/2026 | Gifts for someone who loves to paint or draw | Gift Ideas | / |
+| 12/15/2026 | Gift ideas for game night | D&D Gifts | / |
+| 12/17/2026 | Last-minute Christmas gifts with no shipping | Holiday Gift Ideas | /last-minute-gifts.html |
+
+### Pin text
+
+Each link: `https://couplebettergifts.com/<page>?utm_source=pinterest&utm_medium=organic_social&utm_campaign=gift_quiz&utm_content=<pin id>`.
+
+**d-stocking-stuffers**
+- Title: Stocking stuffers they will actually use
+- Description: Small gifts that match what they already do: thumb grips for a gamer, a bookmark set for a reader, a dice bag for a D&D player, a tea infuser, or brush pens for someone who letters. Stocking stuffer ideas under $25.
+
+**d-secret-santa**
+- Title: Secret Santa gifts under $25
+- Description: Gift exchange ideas that work even when you barely know them: a good mug, cozy socks, a party game, or a phone stand for their desk. Keep the limit for the total, including a card. Secret Santa gift ideas, white elephant under $25.
+
+**d-coffee-tea**
+- Title: Gifts for someone who lives on coffee or tea
+- Description: A tea infuser, a coffee tasting notebook, a mug they will reach for, or a milk frother. Check whether a frother heats milk or only froths. Gifts for coffee lovers, tea lover gift ideas.
+
+**d-gamer-christmas**
+- Title: Christmas gifts for a gamer
+- Description: A pop-up card, a desk mat, a controller, or a headset. Before you order gear, find out whether they play on PC, PlayStation, Xbox, or Switch. Christmas gifts for gamers, gamer boyfriend gifts.
+
+**d-hiker-camper**
+- Title: Gifts for someone who loves the outdoors
+- Description: A utensil set for trail meals, a sit pad, a trail journal, or a rechargeable headlamp. Check runtime and weather resistance on a headlamp. Gifts for hikers, camping gift ideas.
+
+**d-cozy**
+- Title: Cozy gifts for a night in
+- Description: Socks, a framed photo you both love, a fill-in book with things you appreciate about them, or a soft throw blanket. Cozy gift ideas for a partner, best friend, or mom.
+
+**d-baker**
+- Title: Gifts for someone who loves to bake
+- Description: Spatulas, cookie cutters, a recipe notebook for family recipes, or a kitchen scale for consistent baking. Check heat ratings and dishwasher instructions. Gifts for bakers, baking gift ideas.
+
+**d-order-by**
+- Title: When to order each holiday gift
+- Description: Order the gifts that matter most, and anything custom, first. Check each store's holiday shipping cutoff, and keep digital gifts for the last few days. Holiday shopping timeline, Christmas gift planning.
+
+**d-music**
+- Title: Gifts for a music lover
+- Description: Guitar picks, a stand that shows off a favorite album, a clip-on tuner, or a portable speaker. Confirm the tuner supports their instrument. Gifts for musicians, vinyl lover gifts.
+
+**d-artist**
+- Title: Gifts for someone who loves to paint or draw
+- Description: A sketchbook, brush pens, an embroidery kit, or a travel watercolor set. Match paper weight to the medium they use. Gifts for artists, creative gift ideas.
+
+**d-game-night**
+- Title: Gift ideas for game night
+- Description: A party game, a fresh dice set, a two-player game for a couple, or a dice tray. Check player counts before you buy. Board game gifts, game night gift ideas.
+
+**d-last-minute**
+- Title: Last-minute Christmas gifts with no shipping
+- Description: Out of shipping time? Pick how the gift gets there first: a local shop, same-day pickup, or a digital gift. Print a digital gift and put it in a card. Last minute Christmas gifts.
+
